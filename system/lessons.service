@@ -1,0 +1,41 @@
+# @APP_TITLE@: the lesson engine and the lesson screen.
+# A template: install.sh fills in the @...@ placeholders and installs it
+# as /etc/systemd/system/@APP@-lessons.service.
+
+[Unit]
+Description=@APP_TITLE@ lessons (lesson engine and screen)
+Wants=network-online.target sound.target
+After=network-online.target sound.target @APP@-bridge.service
+
+[Service]
+Type=simple
+User=@USER@
+Group=@USER@
+SupplementaryGroups=audio
+EnvironmentFile=@ETC_DIR@/config.env
+Environment=RUN_DIR=/run/@APP@
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=@VAR_DIR@
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/lessons/piano_game.py
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+
+RuntimeDirectory=@APP@
+RuntimeDirectoryPreserve=yes
+RuntimeDirectoryMode=0750
+
+ProtectProc=invisible
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=@VAR_DIR@
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

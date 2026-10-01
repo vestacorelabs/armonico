@@ -1,0 +1,28 @@
+blueprint:
+  name: "Piano shortcut"
+  description: >-
+    Runs any actions when a shortcut is played on the piano. Shortcuts are short
+    melodies taught with /seqlearn in Telegram, or written in shortcuts.conf.
+    One automation per shortcut: pick the shortcut's name and what should happen.
+  domain: automation
+  input:
+    shortcut:
+      name: Shortcut name
+      description: The name the shortcut was saved under, for example ode_to_joy
+      selector:
+        text: {}
+    actions:
+      name: Actions
+      description: What happens when the shortcut is played
+      selector:
+        action: {}
+
+triggers:
+  - trigger: mqtt
+    topic: piano/shortcut
+    payload: !input shortcut
+
+actions: !input actions
+
+mode: queued
+max: 10

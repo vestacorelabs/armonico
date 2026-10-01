@@ -1,0 +1,46 @@
+# @APP_TITLE@: the MIDI bridge.
+# A template: install.sh fills in the @...@ placeholders and installs it
+# as /etc/systemd/system/@APP@-bridge.service.
+
+[Unit]
+Description=@APP_TITLE@ bridge (keys, shortcuts, playback, alarm)
+Wants=network-online.target sound.target
+After=network-online.target sound.target
+
+[Service]
+Type=simple
+User=@USER@
+Group=@USER@
+SupplementaryGroups=audio
+EnvironmentFile=@ETC_DIR@/config.env
+Environment=RUN_DIR=/run/@APP@
+Environment=PYTHON=@OPT_DIR@/venv/bin/python
+WorkingDirectory=@VAR_DIR@
+ExecStart=@OPT_DIR@/bridge/piano_bridge.sh
+Restart=always
+RestartSec=5
+TimeoutStopSec=15
+
+# Flags shared with the lesson engine live here. Kept when one of the two
+# services stops, so the other one does not lose them.
+RuntimeDirectory=@APP@
+RuntimeDirectoryPreserve=yes
+RuntimeDirectoryMode=0750
+
+# Hardening: the bridge needs the sound devices, its data folder and the network, nothing else.
+# ProtectProc hides this service's processes from other users, and with them the
+# MQTT password on the mosquitto command lines.
+ProtectProc=invisible
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=@VAR_DIR@
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target
