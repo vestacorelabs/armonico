@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ink">#1D2433</color>
+    <color name="gold">#B98A2C</color>
+    <color name="ok">#2F7A4F</color>
+    <color name="bad">#A8641C</color>
+    <color name="icon_bg">#1D2433</color>
+    <color name="page">#f2f7fd</color>
+</resources>

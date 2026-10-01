@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Armonico</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_songs">Songs</string>
+    <string name="tab_settings">Settings</string>
+    <string name="tab_log">Log</string>
+
+    <string name="now">NOW</string>
+    <string name="now_alarm">The alarm is ringing</string>
+    <string name="now_song">Playing</string>
+    <string name="now_paused">Paused</string>
+    <string name="now_idle">Nothing is playing</string>
+    <string name="now_idle_sub">Songs and the alarm play on the piano.</string>
+    <string name="started_by">Started by %1$s</string>
+    <string name="stop_playback">Stop playback</string>
+    <string name="bridge_off_title">The bridge is off</string>
+    <string name="bridge_off_sub">With the bridge off the piano does not listen and nothing plays.</string>
+    <string name="bridge_start">Start the bridge</string>
+    <string name="bridge_stop">Turn the bridge off</string>
+
+    <string name="lessons_kicker">LESSON SCREEN</string>
+    <string name="screen_code">Screen code</string>
+    <string name="lessons_sub">The address opens in any browser on the network. The code is entered once on each device.</string>
+    <string name="open_lessons">Open the lesson screen</string>
+    <string name="lessons_starting">Starting…</string>
+    <string name="not_active">Not in use</string>
+    <string name="failed_start">Did not start</string>
+    <string name="mode_pending">The new choice takes effect after saving</string>
+    <string name="save_connect">Save and connect</string>
+    <string name="need_host">A broker address is needed</string>
+    <string name="saved_off">Saved. The bridge is off</string>
+    <string name="bot_needs_bridge">The bot runs while the bridge runs.</string>
+    <string name="bridge_sub_off">Not running now</string>
+    <string name="lessons_failed">Did not start</string>
+    <string name="lessons_failed_sub">The full reason is in the log.</string>
+    <string name="lesson_running_toast">A lesson is running</string>
+    <string name="something_playing_toast">Something is playing. Stop it first</string>
+    <string name="now_lesson">A lesson is running</string>
+    <string name="now_lesson_sub">The keys belong to the lesson: songs wait and shortcuts do not run.</string>
+    <string name="lesson_stop">Stop the lesson</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="notify_lesson">A lesson is running</string>
+    <string name="connections">CONNECTIONS</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="keyboard_plug">Connect it to the phone over USB</string>
+    <string name="connected_f">Connected</string>
+    <string name="not_connected_f">Not connected</string>
+    <string name="connected_m">Connected</string>
+    <string name="not_connected_m">Not connected</string>
+    <string name="broker">Broker</string>
+    <string name="on_phone">On the phone</string>
+    <string name="telegram">Telegram</string>
+    <string name="working">Running</string>
+    <string name="not_working">Not working</string>
+    <string name="bridge">Bridge</string>
+    <string name="bridge_sub_auto">Runs in the background and starts with the phone</string>
+    <string name="bridge_sub">Runs in the background</string>
+    <string name="running">Running</string>
+    <string name="off">Off</string>
+    <string name="background">Background running</string>
+    <string name="background_sub">The phone does not stop the bridge to save battery</string>
+    <string name="allowed">Allowed</string>
+    <string name="allow">Allow</string>
+    <string name="version">Version %1$s</string>
+
+    <string name="songs_kicker">SONGS ON THE PHONE</string>
+    <string name="songs_sub">The file name is the name used in Telegram and in the alarm.</string>
+    <string name="search_song">Search for a song</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
+    <string name="add_songs">Add MIDI files</string>
+    <string name="added_songs">%1$d added</string>
+    <string name="long_press_delete">A long press on a song deletes it.</string>
+    <string name="delete_song">Delete %1$s?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="need_bridge">The bridge has to be running</string>
+    <string name="keyboard_off_toast">The keyboard is not connected</string>
+    <string name="min_sec">%1$s %2$s</string>
+
+    <string name="mode_local">Broker on the phone</string>
+    <string name="mode_network">Broker on the network</string>
+    <string name="broker_on_phone">BROKER ON THE PHONE</string>
+    <string name="broker_on_phone_sub">The bridge, the lessons and the recorder talk through it on the phone itself. The status screen connects to it on the network, over websockets on port 9001. Home Assistant connects through "Broker on the network".</string>
+    <string name="broker_network">BROKER ON THE NETWORK</string>
+    <string name="no_network">Not on a network</string>
+    <string name="address">Address</string>
+    <string name="user">User</string>
+    <string name="port">Port</string>
+    <string name="password">Password</string>
+    <string name="show">Show</string>
+    <string name="copy">Copy</string>
+    <string name="copied">Copied</string>
+
+    <string name="telegram_token">Token from BotFather</string>
+    <string name="telegram_token_empty">Empty: Home Assistant reads the bot</string>
+    <string name="telegram_one_reader">Only one program can read a bot at a time. If Home Assistant already reads it, use a different bot here.</string>
+    <string name="via_ha">Through Home Assistant</string>
+    <string name="not_saved">Not saved</string>
+    <string name="save_to_start_bot">Save to start the bot.</string>
+    <string name="bot">Bot</string>
+    <string name="bot_chat">The chat the bot answers</string>
+    <string name="waiting_start">Waiting for /start · %1$s left</string>
+    <string name="chat_connected">Chat %1$s</string>
+    <string name="no_chat">None yet</string>
+    <string name="connect_chat">Connect my chat</string>
+    <string name="change_chat">Change</string>
+
+    <string name="device">Device</string>
+    <string name="device_first">The first USB keyboard found</string>
+    <string name="change">Change</string>
+    <string name="stop_key">Stop key</string>
+    <string name="press_on_piano">Press it on the piano</string>
+    <string name="waiting_key">Waiting for a key…</string>
+    <string name="range">Range</string>
+    <string name="measure">Measure</string>
+    <string name="lowest_key">Lowest key…</string>
+    <string name="highest_key">Highest key…</string>
+    <string name="note_of">%1$s · note %2$d</string>
+    <string name="range_of">%1$s to %2$s · %3$d keys</string>
+    <string name="measure_needs">The bridge has to be running with the keyboard connected</string>
+
+    <string name="general">GENERAL</string>
+    <string name="autostart">Start with the phone</string>
+    <string name="reply_lang">Language of the Telegram replies</string>
+    <string name="advanced">ADVANCED</string>
+    <string name="admin_secret">Admin secret</string>
+    <string name="admin_secret_local">Checks the guarded commands that arrive through the broker. The app\'s own bot does not need it.</string>
+    <string name="admin_secret_network">The same value as armonico_admin_secret in Home Assistant. Without it /pianoreset from Home Assistant does not work.</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
+
+    <string name="log">LOG</string>
+    <string name="log_title">What the bridge did</string>
+    <string name="live">Live</string>
+    <string name="here_only">Here only</string>
+    <string name="log_empty">Nothing yet.</string>
+    <string name="live_start">Send to MQTT</string>
+    <string name="live_stop">Stop sending</string>
+
+    <string name="channel_name">Bridge</string>
+    <string name="notify_alarm">The alarm is ringing: %1$s</string>
+    <string name="notify_song">Playing: %1$s</string>
+    <string name="notify_listening">Listening to the keyboard · %1$s</string>
+    <string name="notify_waiting">Waiting for the keyboard</string>
+    <string name="notify_stop">Stop playback</string>
+
+    <string name="status_screen">Status screen</string>
+    <string name="tools">TOOLS</string>
+    <string name="tools_sub">What the armonico command does on Linux. The result shows on the command screen, in the log tab.</string>
+    <string name="tool_check">Full check</string>
+    <string name="tool_unstick">Unstick a keyboard that went silent</string>
+    <string name="tool_reset">Full reset</string>
+    <string name="tool_update">Check for an update</string>
+    <string name="record_title">MQTT recording</string>
+    <string name="record_off_sub">Off. Every broker message, on every topic, goes to one file per day, kept %d days</string>
+    <string name="record_on_sub">On · %1$d days · %2$s MB</string>
+    <string name="run">Run</string>
+    <string name="commands">Commands</string>
+    <string name="log_view">Log</string>
+    <string name="commands_title">The armonico command</string>
+    <string name="commands_sub">The same commands as armonico on Linux, and the Telegram ones. help lists them all.</string>
+    <string name="commands_empty">No command yet. help lists them.</string>
+    <string name="restarting">Restarting the bridge</string>
+    <plurals name="songs">
+        <item quantity="one">1 song</item>
+        <item quantity="other">%d songs</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">1 second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="seconds_and">
+        <item quantity="one">1 second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+</resources>

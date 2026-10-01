@@ -1,0 +1,73 @@
+blueprint:
+  name: "Piano practice reminder"
+  description: >-
+    A reminder at a set time on days with no lesson yet. It can wait for parts that are due,
+    so a day with nothing to review stays quiet. The message follows the language chosen on
+    the lesson screen, and is available to the action as {{ message }}.
+    Needs the piano package, which the installer sets up in Home Assistant.
+  domain: automation
+  input:
+    remind_time:
+      name: Time
+      selector:
+        time: {}
+    weekdays:
+      name: Days
+      default: [mon, tue, wed, thu, fri, sat, sun]
+      selector:
+        select:
+          multiple: true
+          mode: list
+          options:
+            - { label: Monday, value: mon }
+            - { label: Tuesday, value: tue }
+            - { label: Wednesday, value: wed }
+            - { label: Thursday, value: thu }
+            - { label: Friday, value: fri }
+            - { label: Saturday, value: sat }
+            - { label: Sunday, value: sun }
+    only_when_due:
+      name: Only when parts are due
+      description: Stay quiet on days when no part is due for review
+      default: false
+      selector:
+        boolean: {}
+    notify:
+      name: Send the reminder
+      description: >-
+        For example telegram_bot.send_message or a notify action, with {{ message }} as the
+        message text
+      selector:
+        action: {}
+
+triggers:
+  - trigger: time
+    at: !input remind_time
+    weekday: !input weekdays
+
+variables:
+  only_when_due: !input only_when_due
+  due: "{{ states('sensor.piano_parts_due') | int(0) }}"
+  streak: "{{ states('sensor.piano_streak') | int(0) }}"
+  song: "{{ (state_attr('sensor.piano_lessons_today', 'song') or '') | replace('_', ' ') | title }}"
+  message: >-
+    {%- if is_state('sensor.piano_language', 'he') -%}
+      🎹 עוד לא היה שיעור היום.
+      {%- if due > 0 %} {{ 'חלק אחד מחכה' if due == 1 else due ~ ' חלקים מחכים' }} לחזרה{{ ' ב-' ~ song if song }}.{% endif %}
+      {%- if streak > 0 %} הרצף עומד על {{ 'יום אחד' if streak == 1 else streak ~ ' ימים' }}.{% endif %}
+    {%- else -%}
+      🎹 No lesson yet today.
+      {%- if due > 0 %} {{ due }} {{ 'part is' if due == 1 else 'parts are' }} due for review{{ ' in ' ~ song if song }}.{% endif %}
+      {%- if streak > 0 %} Your streak is {{ streak }} {{ 'day' if streak == 1 else 'days' }}.{% endif %}
+    {%- endif -%}
+
+conditions:
+  - condition: numeric_state
+    entity_id: sensor.piano_lessons_today
+    below: 1
+  - condition: template
+    value_template: "{{ not only_when_due or due > 0 }}"
+
+actions: !input notify
+
+mode: single

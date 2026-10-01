@@ -1,0 +1,85 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Read-only. A pull request from a fork runs this workflow, so nothing here is given
+# anything it could take with it.
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+
+      - name: Install what the lesson engine imports
+        run: pip install --require-hashes -r requirements.txt
+
+      # as root: the installer's tests run its functions, which give files to root
+      - name: Unit tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"   # no root-owned __pycache__ left behind
+        run: sudo -E env "PATH=$PATH" python3 -m unittest discover -s tests -v
+
+      - name: Every Python file parses
+        env:
+          PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
+        run: |
+          python3 -m compileall -q lessons cli setup bridge device android/app/src/main/python
+
+  shell:
+    name: Shell scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Syntax
+        run: |
+          for f in install.sh setup/update.sh setup/make-release.sh bridge/*.sh; do
+            bash -n "$f" || exit 1
+          done
+
+      - name: shellcheck
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+          # SC1090: the settings file is read by a path only known when the script runs
+          shellcheck -S warning -e SC1090 install.sh setup/update.sh setup/make-release.sh bridge/*.sh device/*.sh
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - name: pip-audit
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt --strict
+
+  release-files:
+    name: The files a release must carry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Present and accounted for
+        run: |
+          for f in LICENSE NOTICE SECURITY.md CONTRIBUTING.md README.md CHANGELOG.md \
+                   VERSION lessons/fonts/OFL.txt lessons/sounds/piano/SOURCE.md device/samples/SOURCE.md \
+                   device/samples/gm/SOURCE.md; do
+            [ -s "$f" ] || { echo "missing or empty: $f"; exit 1; }
+          done
+      - name: The version and the changelog agree
+        run: |
+          v="$(tr -d '[:space:]' < VERSION)"
+          grep -q "^## $v\$" CHANGELOG.md || { echo "CHANGELOG.md has no section for $v"; exit 1; }

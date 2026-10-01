@@ -1,0 +1,12 @@
+# @APP_TITLE@: starts a full reset of the piano connection when Telegram asks for one.
+# The bridge runs without root rights; it only writes the request file, and this
+# root unit, which it cannot change, does the reset.
+[Unit]
+Description=@APP_TITLE@ reset request
+
+[Path]
+PathExists=@VAR_DIR@/reset-request
+Unit=@APP@-reset.service
+
+[Install]
+WantedBy=multi-user.target

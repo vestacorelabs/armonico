@@ -1,0 +1,19 @@
+# @APP_TITLE@: one backup, restore or undo asked for by the screen (device/backup.py).
+[Unit]
+Description=@APP_TITLE@ Pi backup and restore
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh @OPT_DIR@/device/backup_root.sh
+# a backup sent over a slow network, or a restore that waits for the services and goes back
+TimeoutStartSec=30min
+
+# Root, because it writes @ETC_DIR@, restarts the services and writes to USB sticks. The data
+# folder and the network transfers run as @USER@ (backup.py starts them under that user).
+PrivateTmp=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+ProtectClock=yes
+ProtectHostname=yes
+UMask=0027

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!-- labwc for the Armonico Pi: the screen is the only window. No title bars, no menus,
+     no key shortcuts (nothing on the device's keyboard or a USB one closes or moves it). -->
+<labwc_config>
+  <core>
+    <decoration>client</decoration>
+    <gap>0</gap>
+  </core>
+  <theme>
+    <cornerRadius>0</cornerRadius>
+  </theme>
+  <focus>
+    <followMouse>no</followMouse>
+  </focus>
+  <keyboard>
+    <repeatRate>25</repeatRate>
+    <repeatDelay>600</repeatDelay>
+  </keyboard>
+  <mouse>
+    <default />
+    <context name="Root">
+    </context>
+  </mouse>
+  <!-- the mouse a little quicker than libinput's default (0.0), for a 24" screen: 1.0 is the fastest -->
+  <libinput>
+    <device category="default">
+      <pointerSpeed>0.5</pointerSpeed>
+      <accelProfile>adaptive</accelProfile>
+    </device>
+  </libinput>
+  <windowRules>
+    <windowRule identifier="*" serverDecoration="no" skipTaskbar="yes" />
+  </windowRules>
+</labwc_config>

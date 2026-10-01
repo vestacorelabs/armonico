@@ -1,0 +1,13 @@
+# @APP_TITLE@: does one action from the screen's request file; device/root_actions.py knows the list.
+[Unit]
+Description=@APP_TITLE@ Pi screen request
+
+[Service]
+Type=oneshot
+Environment=DATA_DIR=@VAR_DIR@
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/device/root_actions.py
+TimeoutStartSec=20min
+PrivateTmp=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+UMask=0022

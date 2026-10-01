@@ -1,0 +1,12 @@
+# @APP_TITLE@: switches the Armonico Pi device between its two brokers when the screen asks.
+# The screen runs without root rights; it only writes the request file, and this
+# root unit, which it cannot change, rewrites the settings and restarts the services.
+[Unit]
+Description=@APP_TITLE@ Pi mode request
+
+[Path]
+PathExists=@VAR_DIR@/device-mode-request
+Unit=@APP@-device-mode.service
+
+[Install]
+WantedBy=multi-user.target

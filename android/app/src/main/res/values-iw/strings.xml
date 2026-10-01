@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Armonico</string>
+
+    <string name="tab_home">בית</string>
+    <string name="tab_songs">שירים</string>
+    <string name="tab_settings">הגדרות</string>
+    <string name="tab_log">יומן</string>
+
+    <string name="now">עכשיו</string>
+    <string name="now_alarm">השעון המעורר מצלצל</string>
+    <string name="now_song">מתנגן</string>
+    <string name="now_paused">מושהה</string>
+    <string name="now_idle">שום דבר לא מתנגן</string>
+    <string name="now_idle_sub">השירים והשעון המעורר מתנגנים בפסנתר.</string>
+    <string name="started_by">הופעל מ-%1$s</string>
+    <string name="stop_playback">עצירת הנגינה</string>
+    <string name="bridge_off_title">הגשר כבוי</string>
+    <string name="bridge_off_sub">כשהגשר כבוי הפסנתר לא מאזין ושום דבר לא מתנגן.</string>
+    <string name="bridge_start">הפעלת הגשר</string>
+    <string name="bridge_stop">כיבוי הגשר</string>
+
+    <string name="lessons_kicker">מסך השיעורים</string>
+    <string name="screen_code">קוד המסך</string>
+    <string name="lessons_sub">את הכתובת פותחים בכל דפדפן ברשת. את הקוד מזינים פעם אחת בכל מכשיר.</string>
+    <string name="open_lessons">פתיחת מסך השיעורים</string>
+    <string name="lessons_starting">עולה…</string>
+    <string name="not_active">לא בשימוש</string>
+    <string name="failed_start">לא עלה</string>
+    <string name="mode_pending">הבחירה החדשה נכנסת לתוקף אחרי השמירה</string>
+    <string name="save_connect">שמירה וחיבור</string>
+    <string name="need_host">צריך כתובת של ברוקר</string>
+    <string name="saved_off">נשמר. הגשר כבוי</string>
+    <string name="bot_needs_bridge">הבוט פועל כשהגשר פועל.</string>
+    <string name="bridge_sub_off">לא פועל כרגע</string>
+    <string name="lessons_failed">לא עלה</string>
+    <string name="lessons_failed_sub">הסיבה המלאה ביומן.</string>
+    <string name="lesson_running_toast">יש שיעור פעיל</string>
+    <string name="something_playing_toast">משהו כבר מתנגן. קודם צריך לעצור אותו</string>
+    <string name="now_lesson">יש שיעור פעיל</string>
+    <string name="now_lesson_sub">הקלידים שייכים לשיעור: שירים מחכים וקיצורים לא פועלים.</string>
+    <string name="lesson_stop">עצירת השיעור</string>
+    <string name="pause">השהיה</string>
+    <string name="resume">המשך</string>
+    <string name="notify_lesson">יש שיעור פעיל</string>
+    <string name="connections">חיבורים</string>
+    <string name="keyboard">מקלדת</string>
+    <string name="keyboard_plug">לחבר אותה לטלפון ב-USB</string>
+    <string name="connected_f">מחוברת</string>
+    <string name="not_connected_f">לא מחוברת</string>
+    <string name="connected_m">מחובר</string>
+    <string name="not_connected_m">לא מחובר</string>
+    <string name="broker">ברוקר</string>
+    <string name="on_phone">בטלפון</string>
+    <string name="telegram">טלגרם</string>
+    <string name="working">פועל</string>
+    <string name="not_working">לא עובד</string>
+    <string name="bridge">הגשר</string>
+    <string name="bridge_sub_auto">פועל ברקע ועולה עם הטלפון</string>
+    <string name="bridge_sub">פועל ברקע</string>
+    <string name="running">פועל</string>
+    <string name="off">כבוי</string>
+    <string name="background">פעולה ברקע</string>
+    <string name="background_sub">הטלפון לא עוצר את הגשר כדי לחסוך סוללה</string>
+    <string name="allowed">מותרת</string>
+    <string name="allow">לאפשר</string>
+    <string name="version">גרסה %1$s</string>
+
+    <string name="songs_kicker">השירים בטלפון</string>
+    <string name="songs_sub">השם של הקובץ הוא השם שכותבים בטלגרם ובשעון המעורר.</string>
+    <string name="search_song">חיפוש שיר</string>
+    <string name="play">ניגון</string>
+    <string name="stop">עצירה</string>
+    <string name="add_songs">הוספת קובצי MIDI</string>
+    <string name="added_songs">נוספו %1$d</string>
+    <string name="long_press_delete">לחיצה ארוכה על שיר מוחקת אותו.</string>
+    <string name="delete_song">למחוק את %1$s?</string>
+    <string name="delete">מחיקה</string>
+    <string name="cancel">ביטול</string>
+    <string name="need_bridge">הגשר צריך לפעול</string>
+    <string name="keyboard_off_toast">המקלדת לא מחוברת</string>
+    <string name="min_sec">%1$s ו-%2$s</string>
+
+    <string name="mode_local">ברוקר בטלפון</string>
+    <string name="mode_network">ברוקר ברשת</string>
+    <string name="broker_on_phone">הברוקר בטלפון</string>
+    <string name="broker_on_phone_sub">הגשר, השיעורים וההקלטה מדברים דרכו בתוך הטלפון. מסך הסטטוס מתחבר אליו ברשת, ב-websockets בפורט 9001. החיבור ל-Home Assistant עובר דרך "ברוקר ברשת".</string>
+    <string name="broker_network">הברוקר ברשת</string>
+    <string name="no_network">לא מחובר לרשת</string>
+    <string name="address">כתובת</string>
+    <string name="user">משתמש</string>
+    <string name="port">פורט</string>
+    <string name="password">סיסמה</string>
+    <string name="show">הצגה</string>
+    <string name="copy">העתקה</string>
+    <string name="copied">הועתק</string>
+
+    <string name="telegram_token">הטוקן מ-BotFather</string>
+    <string name="telegram_token_empty">ריק: Home Assistant קורא את הבוט</string>
+    <string name="telegram_one_reader">רק תוכנה אחת יכולה לקרוא בוט בכל פעם. אם Home Assistant כבר קורא אותו, צריך כאן בוט אחר.</string>
+    <string name="via_ha">דרך Home Assistant</string>
+    <string name="not_saved">לא נשמר</string>
+    <string name="save_to_start_bot">הבוט מתחיל לפעול אחרי השמירה.</string>
+    <string name="bot">הבוט</string>
+    <string name="bot_chat">הצ\'אט שהבוט עונה לו</string>
+    <string name="waiting_start">מחכה ל-/start · עוד %1$s</string>
+    <string name="chat_connected">צ\'אט %1$s</string>
+    <string name="no_chat">עוד אין</string>
+    <string name="connect_chat">חיבור הצ\'אט שלי</string>
+    <string name="change_chat">החלפה</string>
+
+    <string name="device">התקן</string>
+    <string name="device_first">מקלדת ה-USB הראשונה שנמצאת</string>
+    <string name="change">החלפה</string>
+    <string name="stop_key">קליד העצירה</string>
+    <string name="press_on_piano">ללחוץ בפסנתר</string>
+    <string name="waiting_key">מחכה לקליד…</string>
+    <string name="range">הטווח</string>
+    <string name="measure">מדידה</string>
+    <string name="lowest_key">הקליד הנמוך…</string>
+    <string name="highest_key">הקליד הגבוה…</string>
+    <string name="note_of">%1$s · תו %2$d</string>
+    <string name="range_of">%1$s עד %2$s · %3$d קלידים</string>
+    <string name="measure_needs">הגשר צריך לפעול והמקלדת צריכה להיות מחוברת</string>
+
+    <string name="general">כללי</string>
+    <string name="autostart">הפעלה עם הטלפון</string>
+    <string name="reply_lang">שפת התשובות בטלגרם</string>
+    <string name="advanced">מתקדם</string>
+    <string name="admin_secret">סוד ניהול</string>
+    <string name="admin_secret_local">בודק את הפקודות הרגישות שמגיעות דרך הברוקר. הבוט באפליקציה לא צריך אותו.</string>
+    <string name="admin_secret_network">אותו ערך כמו armonico_admin_secret ב-Home Assistant. בלעדיו /pianoreset מ-Home Assistant לא עובד.</string>
+    <string name="save">שמירה</string>
+    <string name="saved">נשמר</string>
+
+    <string name="log">יומן</string>
+    <string name="log_title">מה הגשר עשה</string>
+    <string name="live">חי</string>
+    <string name="here_only">רק כאן</string>
+    <string name="log_empty">עוד אין כלום.</string>
+    <string name="live_start">שליחה ל-MQTT</string>
+    <string name="live_stop">עצירת השליחה</string>
+
+    <string name="channel_name">גשר</string>
+    <string name="notify_alarm">השעון המעורר מצלצל: %1$s</string>
+    <string name="notify_song">מתנגן: %1$s</string>
+    <string name="notify_listening">מאזין למקלדת · %1$s</string>
+    <string name="notify_waiting">מחכה למקלדת</string>
+    <string name="notify_stop">עצירת הנגינה</string>
+
+    <string name="status_screen">מסך הסטטוס</string>
+    <string name="tools">כלים</string>
+    <string name="tools_sub">מה שהפקודה armonico עושה בלינוקס. התוצאה מופיעה במסך הפקודות, בלשונית היומן.</string>
+    <string name="tool_check">בדיקה מקיפה</string>
+    <string name="tool_unstick">שחרור מקלדת שלא משמיעה צליל</string>
+    <string name="tool_reset">איפוס מלא</string>
+    <string name="tool_update">בדיקת עדכון</string>
+    <string name="record_title">הקלטת MQTT</string>
+    <string name="record_off_sub">כבויה. כל הודעה בברוקר, בכל נושא, נשמרת בקובץ יומי למשך %d ימים</string>
+    <string name="record_on_sub">פועלת · %1$d ימים · ⁦%2$s MB⁩</string>
+    <string name="run">הרצה</string>
+    <string name="commands">פקודות</string>
+    <string name="log_view">יומן</string>
+    <string name="commands_title">הפקודה armonico</string>
+    <string name="commands_sub">אותן פקודות כמו armonico בלינוקס, וגם פקודות הטלגרם. help מציג את כולן.</string>
+    <string name="commands_empty">עוד לא הורצה פקודה. help מציג את כולן.</string>
+    <string name="restarting">הגשר עולה מחדש</string>
+    <plurals name="songs">
+        <item quantity="one">שיר אחד</item>
+        <item quantity="two">2 שירים</item>
+        <item quantity="other">%d שירים</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">דקה</item>
+        <item quantity="two">2 דקות</item>
+        <item quantity="other">%d דקות</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">שנייה אחת</item>
+        <item quantity="two">2 שניות</item>
+        <item quantity="other">%d שניות</item>
+    </plurals>
+    <plurals name="seconds_and">
+        <item quantity="one">שנייה</item>
+        <item quantity="two">2 שניות</item>
+        <item quantity="other">%d שניות</item>
+    </plurals>
+</resources>

@@ -1,0 +1,34 @@
+# @APP_TITLE@: the screen of the Armonico Pi device (install.sh --device).
+# A template: install.sh fills in the @...@ placeholders and installs it
+# as /etc/systemd/system/@APP@-screen.service. Enabled only on the device.
+#
+# The screen program draws straight on the DSI screen through KMS, with no compositor
+# (device/session.sh, plan "kms"; the labwc plans for HDMI are kept there as comments). It runs in
+# a real login session opened by a login manager, greetd, on a VT of seat0 through PAM
+# (/etc/pam.d/greetd, Debian's own). A session made by hand from a unit (PAMName= on tty1) left
+# the screen black. greetd runs device/session.sh as @USER@ and starts it again whenever it ends.
+# With no screen found, session.sh stops starting the program after a few misses and waits
+# (no restart loop); the keys and the sound are @APP@-device.service and go on without it.
+# Debian's own greetd.service stays disabled: this unit is the one that runs greetd.
+
+[Unit]
+Description=@APP_TITLE@ Pi screen
+Wants=@APP@-device.service
+After=@APP@-device.service @APP@-lessons.service systemd-user-sessions.service getty@tty7.service
+# greetd ends when its session ends without a login (here: whenever the screen program ends),
+# and is started again at once, however many times
+StartLimitIntervalSec=0
+Conflicts=getty@tty7.service greetd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/greetd --config @ETC_DIR@/greetd.toml
+IgnoreSIGPIPE=no
+SendSIGHUP=yes
+KeyringMode=shared
+Restart=always
+RestartSec=2
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

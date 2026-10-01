@@ -1,0 +1,12 @@
+# @APP_TITLE@: starts an update when the lesson screen asks for one.
+# The screen runs without root rights; it only writes the request file, and this
+# root unit, which it cannot change, does the update.
+[Unit]
+Description=@APP_TITLE@ update request
+
+[Path]
+PathExists=@VAR_DIR@/update-request
+Unit=@APP@-update.service
+
+[Install]
+WantedBy=multi-user.target

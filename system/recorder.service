@@ -1,0 +1,35 @@
+# @APP_TITLE@: records every MQTT message to a file. Optional, off after the install.
+# A template: install.sh fills in the @...@ placeholders and installs it
+# as /etc/systemd/system/@APP@-recorder.service. On and off: sudo @APP@ record on|off
+
+[Unit]
+Description=@APP_TITLE@ MQTT recorder (every topic, to @VAR_DIR@/mqtt)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=@USER@
+Group=@USER@
+EnvironmentFile=@ETC_DIR@/config.env
+Environment=PYTHONUNBUFFERED=1
+WorkingDirectory=@VAR_DIR@
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/bridge/mqtt_recorder.py
+Restart=always
+RestartSec=5
+TimeoutStopSec=10
+
+ProtectProc=invisible
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=@VAR_DIR@
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target
