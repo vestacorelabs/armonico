@@ -1,0 +1,77 @@
+Armonico
+Copyright (c) 2026 Matanel Shmailov (Vesta Core Labs)
+
+Armonico itself is released under the MIT License; the full text is in LICENSE.
+
+It ships with work by other people, under licenses of their own. Those licenses
+apply to that work wherever it goes, including in any copy or fork of this
+repository, and the notices below travel with it.
+
+
+--------------------------------------------------------------------------------
+Salamander Grand Piano V3
+--------------------------------------------------------------------------------
+Files:      lessons/sounds/piano/*.mp3
+Author:     Alexander Holm
+License:    Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+            https://creativecommons.org/licenses/by/3.0/
+Source:     https://archive.org/details/SalamanderGrandPianoV3
+Subset:     The 30 files here are the set prepared by the Tone.js project,
+            https://github.com/Tonejs/audio/tree/master/salamander
+Changes:    None. Used as recorded, as the grand piano voice of the lesson screen.
+Details:    lessons/sounds/piano/SOURCE.md
+
+CC BY 3.0 asks that the author be credited. The credit appears next to the files,
+on the About page of the lesson screen, and here.
+
+
+--------------------------------------------------------------------------------
+Heebo
+--------------------------------------------------------------------------------
+Files:      lessons/fonts/heebo-hebrew.woff2
+            lessons/fonts/heebo-latin.woff2
+            lessons/fonts/heebo-latin-ext.woff2
+Author:     The Heebo Project Authors, https://github.com/OdedEzer/heebo
+Copyright:  Copyright 2014 The Heebo Project Authors
+License:    SIL Open Font License, Version 1.1
+            Full text: lessons/fonts/OFL.txt
+Changes:    Subset to the character ranges the screen uses, converted to woff2.
+
+The SIL Open Font License requires its text to travel with the font files.
+lessons/fonts/OFL.txt is installed alongside them and is one of the files the
+installer refuses to run without.
+
+
+--------------------------------------------------------------------------------
+JavaScript bundled in the status page
+--------------------------------------------------------------------------------
+Files:      screen/piano-status.html (one bundled script inside the page)
+Contents:   MQTT.js, the MQTT client the page uses, under the MIT License, with the
+            libraries it was bundled with:
+              ieee754 (BSD-3-Clause), Feross Aboukhadijeh
+              safe-buffer (MIT), Feross Aboukhadijeh
+              regenerator-runtime (MIT), Copyright (c) 2014-present, Facebook, Inc.
+Notices:    The license comment inside the bundle is kept as it came, near its end
+            ("Bundled license information").
+
+
+--------------------------------------------------------------------------------
+Mutopia Project editions
+--------------------------------------------------------------------------------
+Files:      setup/music/*.mid
+Source:     https://www.mutopiaproject.org/
+Status:     Public domain editions
+Changes:    Cut to short excerpts at a musical cadence, set to a single piano
+            voice, and some brought closer to a usual performance tempo.
+Details:    setup/music/SOURCES.md, which names every piece, its editor and its
+            Mutopia entry.
+
+
+--------------------------------------------------------------------------------
+Songs downloaded at run time
+--------------------------------------------------------------------------------
+The song search reaches only the Mutopia Project and Wikimedia Commons, and the
+license of each file is recorded next to it when it is saved. Those files are not
+part of this repository and are not covered by its license. Some carry a
+share-alike condition, which applies to whoever redistributes them.
+Details: docs/sources.md

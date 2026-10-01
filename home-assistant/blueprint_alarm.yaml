@@ -1,0 +1,85 @@
+blueprint:
+  name: "Piano alarm clock"
+  description: >-
+    Plays a song on the piano at a set time and keeps it playing until it is stopped:
+    by the stop key (the lowest key), by /pianostop in Telegram, or by anything else that
+    publishes to piano/stop. The piano repeats the song by itself until then. If the keyboard
+    is off or unplugged at that time, or is lost while the alarm plays, the alarm is sent again
+    every few minutes until it plays and somebody stops it.
+    Needs the piano package, which the installer sets up in Home Assistant.
+  domain: automation
+  input:
+    alarm_time:
+      name: Time
+      selector:
+        time: {}
+    weekdays:
+      name: Days
+      default: [mon, tue, wed, thu, fri, sat, sun]
+      selector:
+        select:
+          multiple: true
+          mode: list
+          options:
+            - { label: Monday, value: mon }
+            - { label: Tuesday, value: tue }
+            - { label: Wednesday, value: wed }
+            - { label: Thursday, value: thu }
+            - { label: Friday, value: fri }
+            - { label: Saturday, value: sat }
+            - { label: Sunday, value: sun }
+    song:
+      name: Song
+      description: The name of a MIDI file in the songs folder, without .mid
+      default: ode_to_joy
+      selector:
+        text: {}
+    retry_minutes:
+      name: Try again after
+      description: Minutes to wait before sending the alarm again, only when it is not playing and has not been stopped
+      default: 5
+      selector:
+        number:
+          min: 1
+          max: 60
+          unit_of_measurement: min
+
+triggers:
+  - trigger: time
+    at: !input alarm_time
+    weekday: !input weekdays
+
+variables:
+  song: !input song
+  retry: !input retry_minutes
+
+actions:
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.piano_alarm_stop
+  - repeat:
+      while:
+        - condition: state
+          entity_id: input_boolean.piano_alarm_stop
+          state: "off"
+      sequence:
+        - if:
+            - condition: not
+              conditions:
+                - condition: state
+                  entity_id: sensor.piano_alarm_status
+                  state: "on"
+          then:
+            - action: mqtt.publish
+              data:
+                topic: piano/alarm/set
+                payload: "{{ song }}|Alarm clock"
+        - wait_for_trigger:
+            - trigger: state
+              entity_id: input_boolean.piano_alarm_stop
+              to: "on"
+          timeout:
+            minutes: "{{ retry }}"
+          continue_on_timeout: true
+
+mode: single

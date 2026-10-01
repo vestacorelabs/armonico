@@ -1,0 +1,521 @@
+# Home Assistant package for the piano bridge.
+#
+# One file with everything Home Assistant needs: the MQTT sensors, the helpers,
+# and the automations that connect the Telegram bot to the piano.
+# Installation: docs/home-assistant.md.
+#
+# Requirements: the MQTT integration, connected to the same broker as the piano,
+# and the Telegram bot integration (only for the Telegram commands).
+
+# ----------------------------------------------------------------------
+# Sensors: everything the bridge and the lesson engine publish
+# ----------------------------------------------------------------------
+mqtt:
+  sensor:
+    - name: "Piano Status"
+      unique_id: piano_status
+      state_topic: "piano/status"
+      icon: mdi:piano
+      device: &piano_device
+        identifiers: ["piano_bridge"]
+        name: "Piano"
+        manufacturer: "Vesta Core Labs"
+        model: "MIDI bridge"
+
+    - name: "Piano Alert"
+      unique_id: piano_alert
+      state_topic: "piano/alert"
+      icon: mdi:alert
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Port"
+      unique_id: piano_port
+      state_topic: "piano/port"
+      icon: mdi:usb-port
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Play Status"
+      unique_id: piano_play_status
+      state_topic: "piano/play/status"
+      icon: mdi:play-pause
+      device: *piano_device
+
+    - name: "Piano Now Playing"
+      unique_id: piano_now_playing
+      state_topic: "piano/play/current"
+      icon: mdi:music-note
+      device: *piano_device
+
+    - name: "Piano Play Source"
+      unique_id: piano_play_source
+      state_topic: "piano/play/source"
+      icon: mdi:account-music
+      device: *piano_device
+
+    - name: "Piano Play Duration"
+      unique_id: piano_play_duration
+      state_topic: "piano/play/duration"
+      icon: mdi:timer-outline
+      device: *piano_device
+
+    - name: "Piano Last Finished"
+      unique_id: piano_last_finished
+      state_topic: "piano/play/last_finished"
+      icon: mdi:music-note-outline
+      device: *piano_device
+
+    - name: "Piano Play Stopped By"
+      unique_id: piano_play_stopped_by
+      state_topic: "piano/play/stopped_by"
+      icon: mdi:stop-circle-outline
+      device: *piano_device
+
+    - name: "Piano Alarm Status"
+      unique_id: piano_alarm_status
+      state_topic: "piano/alarm/status"
+      icon: mdi:alarm
+      device: *piano_device
+
+    - name: "Piano Alarm Stopped By"
+      unique_id: piano_alarm_stopped_by
+      state_topic: "piano/alarm/stopped_by"
+      icon: mdi:alarm-off
+      device: *piano_device
+
+    - name: "Piano Alarm Last Song"
+      unique_id: piano_alarm_last_song
+      state_topic: "piano/alarm/last_song"
+      icon: mdi:alarm-note
+      device: *piano_device
+
+    - name: "Piano Last Shortcut"
+      unique_id: piano_last_shortcut
+      state_topic: "piano/shortcut"
+      icon: mdi:keyboard
+      device: *piano_device
+
+    - name: "Piano Log"
+      unique_id: piano_log
+      state_topic: "piano/log"
+      icon: mdi:text-long
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Disconnect Reason"
+      unique_id: piano_disconnect_reason
+      state_topic: "piano/disconnect/reason"
+      icon: mdi:usb-flash-drive-outline
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Disconnect Source"
+      unique_id: piano_disconnect_source
+      state_topic: "piano/disconnect/source"
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Disconnect Uptime"
+      unique_id: piano_disconnect_uptime
+      state_topic: "piano/disconnect/uptime"
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Disconnect Activity"
+      unique_id: piano_disconnect_activity
+      state_topic: "piano/disconnect/activity"
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Disconnect Time"
+      unique_id: piano_disconnect_time
+      state_topic: "piano/disconnect/time"
+      entity_category: diagnostic
+      device: *piano_device
+
+    - name: "Piano Game Status"
+      unique_id: piano_game_status
+      state_topic: "piano/game/status"
+      icon: mdi:school
+      device: *piano_device
+
+    - name: "Piano Game Song"
+      unique_id: piano_game_song
+      state_topic: "piano/game/song"
+      icon: mdi:music-box
+      device: *piano_device
+
+    - name: "Piano Game Score"
+      unique_id: piano_game_score
+      state_topic: "piano/game/score"
+      unit_of_measurement: "%"
+      state_class: measurement
+      icon: mdi:star
+      device: *piano_device
+
+    - name: "Piano Game Keyboard"
+      unique_id: piano_game_keyboard
+      state_topic: "piano/game/piano"
+      icon: mdi:usb
+      entity_category: diagnostic
+      device: *piano_device
+
+    # en or he: the language chosen on the lesson screen. The Telegram answers below follow it
+    - name: "Piano Language"
+      unique_id: piano_language
+      state_topic: "piano/lang"
+      icon: mdi:translate
+      entity_category: diagnostic
+      device: *piano_device
+
+    # who is at the piano now: the profile chosen on the lesson screen ("main" for the first one)
+    - name: "Piano Profile"
+      unique_id: piano_profile
+      state_topic: "piano/profile"
+      icon: mdi:account-music
+      device: *piano_device
+
+    # today's practice, for the reminder blueprint: published by the lesson engine every 10 minutes
+    # and after each lesson, retained
+    - name: "Piano Lessons Today"
+      unique_id: piano_lessons_today
+      state_topic: "piano/practice"
+      value_template: "{{ value_json.lessons_today }}"
+      json_attributes_topic: "piano/practice"
+      state_class: measurement
+      icon: mdi:calendar-check
+      device: *piano_device
+
+    - name: "Piano Parts Due"
+      unique_id: piano_parts_due
+      state_topic: "piano/practice"
+      value_template: "{{ value_json.due }}"
+      state_class: measurement
+      icon: mdi:repeat
+      device: *piano_device
+
+    - name: "Piano Streak"
+      unique_id: piano_streak
+      state_topic: "piano/practice"
+      value_template: "{{ value_json.streak }}"
+      unit_of_measurement: "days"
+      icon: mdi:fire
+      device: *piano_device
+
+# ----------------------------------------------------------------------
+# Helpers
+# ----------------------------------------------------------------------
+input_boolean:
+  piano_alarm_stop:
+    name: "Piano Alarm Stop"
+    icon: mdi:alarm-off
+
+input_text:
+  piano_log_chat_id:
+    name: "Piano Log Chat ID"
+    icon: mdi:message-text
+
+input_datetime:
+  piano_last_played:
+    name: "Piano Last Played"
+    has_date: true
+    has_time: true
+
+# ----------------------------------------------------------------------
+# Automations
+# ----------------------------------------------------------------------
+automation:
+  # Commands from Telegram. Most of them are passed to the bridge or the lesson
+  # engine, which answer the chat themselves through piano/shortcut/reply.
+  - id: piano_telegram_commands
+    alias: "Piano: Telegram commands"
+    mode: queued
+    triggers:
+      - trigger: event
+        event_type: telegram_command
+    variables:
+      command: "{{ trigger.event.data.command }}"
+      chat: "{{ trigger.event.data.chat_id }}"
+      args: "{{ (trigger.event.data.args or []) | join(' ') }}"
+      # The admin secret (MQTT_ADMIN_SECRET in /etc/armonico/config.env). /pianocode and
+      # /pianoprofile are guarded commands and the lesson engine answers them only with it.
+      # By hand: one line in secrets.yaml, see docs/home-assistant.md. The installer puts
+      # the value itself here when it sets Home Assistant up.
+      admin: !secret armonico_admin_secret
+    actions:
+      - choose:
+          - conditions: "{{ command == '/pianostatus' }}"
+            sequence:
+              - action: telegram_bot.send_message
+                data:
+                  chat_id: "{{ chat | int }}"
+                  parse_mode: plain_text
+                  message: |-
+                    {%- macro nice(s) -%}{{ s | regex_replace('([a-z])([A-Z])', '\\1 \\2') | replace('_', ' ') | trim }}{%- endmacro -%}
+                    {%- set bad = ['unknown', 'unavailable', 'none', ''] -%}
+                    {%- set st = states('sensor.piano_status') -%}
+                    {%- set conn = {'online': 'connected ✅', 'offline': 'offline ❌', 'starting': 'starting 🟡',
+                                    'resetting': 'resetting 🔄', 'reconnecting': 'reconnecting ⏳',
+                                    'disconnected': 'disconnected ⚠️', 'timeout': 'did not come back ⛔'} -%}
+                    {%- set playing = states('sensor.piano_play_status') == 'playing' -%}
+                    {%- set source = states('sensor.piano_play_source') -%}
+                    {%- set alarm_on = states('sensor.piano_alarm_status') == 'on' -%}
+                    {%- set stopped_by = states('sensor.piano_alarm_stopped_by') -%}
+                    {%- set last_sc = states('sensor.piano_last_shortcut') -%}
+                    {%- set last_song = states('sensor.piano_last_finished') -%}
+                    {%- set song_stop = states('sensor.piano_play_stopped_by') -%}
+                    {%- set alarm_song = states('sensor.piano_alarm_last_song') -%}
+                    {#- Hebrew: each line starts with an invisible right-to-left mark (U+200F) and ends with its emoji,
+                        and the date starts with a left-to-right mark (U+200E) so the day and the time keep their order -#}
+                    {%- if is_state('sensor.piano_language', 'he') -%}
+                    {%- set conn = {'online': 'מחוברת ✅', 'offline': 'לא מחוברת ❌', 'starting': 'עולה 🟡',
+                                    'resetting': 'מתאפסת 🔄', 'reconnecting': 'מתחברת מחדש ⏳',
+                                    'disconnected': 'התנתקה ⚠️', 'timeout': 'לא חזרה ⛔'} -%}
+                    ‏מצב הפסנתר 🎹
+
+                    ‏מקלדת: {{ conn.get(st, st) }} 🔌
+                    ‏נגן: {{ 'מנגן 🎶' if playing else 'במנוחה 💤' }} 🎼
+                    {%- if playing %}
+                    ‏מתנגן עכשיו: {{ nice(states('sensor.piano_now_playing')) }} ▶️
+                    ‏אורך: {{ states('sensor.piano_play_duration') }} ⏱️
+                    {%- if source not in bad %}
+                    ‏הופעל על ידי: {{ source }} 🤖
+                    {%- endif %}
+                    {%- elif last_song not in bad %}
+                    ‏השיר האחרון: {{ nice(last_song) }} ⏮️
+                    {%- if song_stop == 'Finished' %}
+                    ‏נוגן עד הסוף ✅
+                    {%- elif song_stop not in bad %}
+                    ‏נעצר על ידי: {{ song_stop }} 🛑
+                    {%- endif %}
+                    {%- endif %}
+
+                    ‏שעון מעורר: {{ 'מצלצל 🔔' if alarm_on else 'כבוי 🔕' }} ⏰
+                    {%- if alarm_song not in bad %}
+                    ‏שיר ההשכמה האחרון: {{ nice(alarm_song) }} 🎵
+                    {%- endif %}
+                    {%- if not alarm_on and stopped_by not in bad and not (alarm_song == last_song and stopped_by == song_stop) %}
+                    ‏נעצר על ידי: {{ stopped_by }} 🛑
+                    {%- endif %}
+
+                    ‏הקיצור האחרון: {{ nice(last_sc) if last_sc not in bad else 'אין' }} ⌨️
+                    ‏עודכן: ‎{{ now().strftime('%d/%m %H:%M:%S') }} 🕐
+                    {%- else -%}
+                    🎹 Piano status
+
+                    🔌 Keyboard: {{ conn.get(st, st) }}
+                    🎼 Player: {{ 'playing 🎶' if playing else 'idle 💤' }}
+                    {%- if playing %}
+                    ▶️ Now playing: {{ nice(states('sensor.piano_now_playing')) }}
+                    ⏱️ Length: {{ states('sensor.piano_play_duration') }}
+                    {%- if source not in bad %}
+                    🤖 Started by: {{ source }}
+                    {%- endif %}
+                    {%- elif last_song not in bad %}
+                    ⏮️ Last song: {{ nice(last_song) }}
+                    {%- if song_stop == 'Finished' %}
+                    ✅ Played to the end
+                    {%- elif song_stop not in bad %}
+                    🛑 Stopped by: {{ song_stop }}
+                    {%- endif %}
+                    {%- endif %}
+
+                    ⏰ Alarm: {{ 'ringing 🔔' if alarm_on else 'off 🔕' }}
+                    {%- if alarm_song not in bad %}
+                    🎵 Last alarm song: {{ nice(alarm_song) }}
+                    {%- endif %}
+                    {%- if not alarm_on and stopped_by not in bad and not (alarm_song == last_song and stopped_by == song_stop) %}
+                    🛑 Stopped by: {{ stopped_by }}
+                    {%- endif %}
+
+                    ⌨️ Last shortcut: {{ nice(last_sc) if last_sc not in bad else 'none' }}
+                    🕐 Updated: {{ now().strftime('%d/%m %H:%M:%S') }}
+                    {%- endif %}
+
+          - conditions: "{{ command == '/showlog' }}"
+            sequence:
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.piano_log_chat_id
+                data:
+                  value: "{{ chat }}"
+              - action: mqtt.publish
+                data:
+                  topic: piano/log/control
+                  payload: start
+              - action: telegram_bot.send_message
+                data:
+                  chat_id: "{{ chat | int }}"
+                  message: "{{ '‏הלוג החי פועל 🟢' if is_state('sensor.piano_language', 'he') else '🟢 Live log on' }}"
+
+          - conditions: "{{ command == '/stoplog' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/log/control
+                  payload: stop
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.piano_log_chat_id
+                data:
+                  value: ""
+              - action: telegram_bot.send_message
+                data:
+                  chat_id: "{{ chat | int }}"
+                  message: "{{ '‏הלוג החי כבוי 🔴' if is_state('sensor.piano_language', 'he') else '🔴 Live log off' }}"
+
+          - conditions: "{{ command == '/pianostop' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/stop
+                  payload: Telegram
+              - action: telegram_bot.send_message
+                data:
+                  chat_id: "{{ chat | int }}"
+                  message: "{{ '‏נשלחה עצירה ⏹️' if is_state('sensor.piano_language', 'he') else '⏹️ Stop sent' }}"
+
+          # the bridge checks the song and answers the chat itself
+          - conditions: "{{ command in ['/pianoplay', '/pianosongs'] }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/shortcut/cmd
+                  payload: "{{ {'/pianoplay': 'play', '/pianosongs': 'songs'}[command] }}|{{ chat }}|{{ args }}"
+
+          # the full reset: the bridge asks the root reset unit and answers the chat
+          - conditions: "{{ command == '/pianoreset' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/shortcut/cmd
+                  payload: "reset|{{ chat }}|"
+
+          # shortcuts: /seqlist /seqadd /seqdel /seqlearn /seqcancel -> list add del learn cancel
+          - conditions: "{{ command in ['/seqlist', '/seqadd', '/seqdel', '/seqlearn', '/seqcancel'] }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/shortcut/cmd
+                  payload: "{{ command[4:] }}|{{ chat }}|{{ args }}"
+
+          # lessons
+          - conditions: "{{ command in ['/lesson', '/lessons', '/lessonstop', '/getmidi'] }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/game/cmd
+                  payload: "{{ command[1:] }}|{{ chat }}|{{ args }}"
+
+          # profiles: /pianoprofile [name] -> profile
+          - conditions: "{{ command == '/pianoprofile' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/game/cmd
+                  payload: "profile|{{ chat }}|secret:{{ admin }} {{ args }}"
+
+          # the lesson screen's code: /pianocode -> code
+          - conditions: "{{ command == '/pianocode' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: piano/game/cmd
+                  payload: "code|{{ chat }}|secret:{{ admin }}"
+
+  # Answers from the bridge and the lesson engine, and the live log, sent to Telegram
+  - id: piano_telegram_forward
+    alias: "Piano: forward replies and the live log to Telegram"
+    mode: queued
+    max: 30
+    triggers:
+      - trigger: mqtt
+        topic: piano/log
+        id: log
+      - trigger: mqtt
+        topic: piano/shortcut/reply
+        id: reply
+    actions:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: log
+              - "{{ states('input_text.piano_log_chat_id') not in ['', 'unknown', 'unavailable'] }}"
+            sequence:
+              - action: telegram_bot.send_message
+                data:
+                  chat_id: "{{ states('input_text.piano_log_chat_id') | int }}"
+                  parse_mode: plain_text
+                  message: "{{ trigger.payload }}"
+          # answers for the armonico command in a terminal carry a chat id like cli-1a2b3c4d, not a number
+          - conditions:
+              - condition: trigger
+                id: reply
+              - "{{ trigger.payload.split('|', 1)[0] | regex_match('^-?[0-9]+$') }}"
+            sequence:
+              - variables:
+                  parts: "{{ trigger.payload.split('|', 1) }}"
+              - action: telegram_bot.send_message
+                data:
+                  chat_id: "{{ parts[0] | int }}"
+                  parse_mode: plain_text
+                  message: "{{ parts[1] }}"
+
+  # Forwards a keyboard alert (stuck, needs a power-cycle; or back again) to Telegram, using the
+  # same chat the live log and replies use. Nothing is sent until that chat is known, which happens
+  # the first time a Telegram command is used.
+  - id: piano_alert_forward
+    alias: "Piano: forward keyboard alerts to Telegram"
+    mode: queued
+    max: 10
+    triggers:
+      - trigger: mqtt
+        topic: piano/alert
+    conditions:
+      - "{{ trigger.payload | trim != '' }}"
+      - "{{ states('input_text.piano_log_chat_id') not in ['', 'unknown', 'unavailable'] }}"
+    actions:
+      - action: telegram_bot.send_message
+        data:
+          chat_id: "{{ states('input_text.piano_log_chat_id') | int }}"
+          parse_mode: plain_text
+          message: "{{ trigger.payload }}"
+
+  # Ends the alarm loop of the alarm blueprint when a person stopped the alarm: the stop key,
+  # /pianostop, or anything else that publishes to piano/stop. It listens to the reason the bridge
+  # gives, not to the alarm status: the status also goes to "off" whenever the bridge starts or
+  # the keyboard is switched off or unplugged, and none of those is somebody stopping the alarm.
+  # A keyboard that vanished leaves the loop running, so the alarm plays again when it is back.
+  - id: piano_alarm_stopped
+    alias: "Piano: alarm stopped"
+    mode: single
+    triggers:
+      - trigger: mqtt
+        topic: piano/alarm/stopped_by
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ trigger.payload not in ['unknown', 'Keyboard disconnected', 'Playback error', 'unavailable', '']
+             and not trigger.payload.startswith('Reset') }}
+      - condition: state
+        entity_id: input_boolean.piano_alarm_stop
+        state: "off"
+    actions:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.piano_alarm_stop
+
+  # Keeps the time a shortcut was last played
+  - id: piano_last_played
+    alias: "Piano: last played"
+    mode: queued
+    triggers:
+      - trigger: mqtt
+        topic: piano/shortcut
+    actions:
+      - action: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.piano_last_played
+        data:
+          datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
