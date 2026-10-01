@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Armonico</string>
+    <string name="ch_alarm">Alarm</string>
+    <string name="ringing">The alarm is ringing</string>
+    <string name="stop_alarm">Stop the alarm</string>
+    <string name="quiet_watch">Quiet the watch</string>
+    <string name="no_phone">The phone is not connected</string>
+    <string name="waiting_phone">Waiting for the phone app</string>
+    <string name="bridge_off">The bridge is off</string>
+    <string name="keyboard_on">Connected: %1$s</string>
+    <string name="keyboard_off">The keyboard is not connected</string>
+    <string name="paused">Paused: %1$s</string>
+    <string name="playing">Playing: %1$s</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="lesson">A lesson is running</string>
+    <string name="next_alarm">Alarm %1$s · %2$s</string>
+    <string name="songs">Songs</string>
+    <string name="shortcuts">Shortcuts</string>
+    <string name="alarm_clock">Alarm clock</string>
+    <string name="bridge_turn_off">Turn the bridge off</string>
+    <string name="bridge_turn_on">Turn the bridge on</string>
+    <string name="on_phone">Open on the phone</string>
+    <string name="opened_on_phone">Opened on the phone</string>
+    <string name="settings">Settings</string>
+    <string name="needs_bridge">The bridge has to be on</string>
+    <string name="no_shortcuts">No shortcuts yet. They are taught in the phone app.</string>
+    <string name="once">Once</string>
+    <string name="every_day">Every day</string>
+    <string name="off">off</string>
+    <string name="add_alarm">Add an alarm</string>
+    <string name="no_songs">No songs on the phone yet</string>
+    <string name="song">Song</string>
+    <string name="alarm_on">On</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
+    <string name="delete">Delete</string>
+    <string name="set_ring">Show the alarm on the watch</string>
+    <string name="set_vibrate">Vibrate</string>
+    <string name="set_sound">Sound on the watch</string>
+    <string name="set_note">The alarm always rings on the piano. These choose what the watch does with it.</string>
+    <string name="snooze_n">Snooze %1$d min</string>
+    <string name="set_snooze">Snooze: %1$d min</string>
+    <string name="set_buttons">Buttons while ringing: %1$s</string>
+    <string name="btn_snooze">snooze</string>
+    <string name="btn_stop">stop</string>
+    <string name="btn_quiet">quiet the watch</string>
+    <string-array name="days_short">
+        <item>Su</item>
+        <item>Mo</item>
+        <item>Tu</item>
+        <item>We</item>
+        <item>Th</item>
+        <item>Fr</item>
+        <item>Sa</item>
+    </string-array>
+    <string name="paused_short">Paused</string>
+    <string name="playing_short">Playing</string>
+    <string name="no_alarm">No alarm set</string>
+    <string name="bridge_on_now">The bridge is on</string>
+    <string name="bezel_hint">Tap hours or minutes, turn the bezel</string>
+    <string name="tile_label">Armonico</string>
+    <string name="tile_desc">The bridge, the next alarm, stop, pause and a favorite shortcut</string>
+    <string name="comp_label">Armonico: next alarm</string>
+    <string name="set_tile_shortcut">Shortcut on the tile</string>
+    <string name="none_short">None</string>
+</resources>

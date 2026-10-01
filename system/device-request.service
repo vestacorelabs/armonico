@@ -1,0 +1,25 @@
+# @APP_TITLE@: does one action from the screen's request file; device/root_actions.py knows the list.
+[Unit]
+Description=@APP_TITLE@ Pi screen request
+# systemd's default is 5 starts in 10 s. Past it the path unit fails too and stops watching, and every
+# later request answers "no-root" until a restart: the automatic check asks the root unit several times
+# in a row (the kernel log, the journal, Bluetooth, Telegram, Home Assistant) and then read as "not
+# checked". 100 in 10 s still stops a loop if this one ever failed before it removes the request.
+StartLimitIntervalSec=10
+StartLimitBurst=100
+
+[Service]
+Type=oneshot
+Environment=DATA_DIR=@VAR_DIR@
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/device/root_actions.py
+TimeoutStartSec=20min
+PrivateTmp=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+UMask=0022
+# The screen asks through this unit often (each change of the backlight, set-brightness), and systemd wrote
+# 3 lines each time (Starting, Finished, Deactivated): about 1,500 lines in a 4-hour load test. Those are
+# info, so the unit's journal stops at notice; its own output (a traceback, an error on stderr) is written at
+# warning and still passes, and so does systemd's line when the unit fails
+LogLevelMax=notice
+SyslogLevel=warning

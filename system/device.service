@@ -1,0 +1,56 @@
+# @APP_TITLE@: the keys and the sound of the Armonico Pi device (install.sh --device).
+# A template: install.sh fills in the @...@ placeholders and installs it
+# as /etc/systemd/system/@APP@-device.service. Enabled only on the device.
+
+[Unit]
+Description=@APP_TITLE@ Pi keys and sound
+Wants=sound.target user@@UID@.service
+After=sound.target user@@UID@.service rtkit-daemon.service
+# the ALSA client "Armonico Pi" has to exist before the bridge and the lessons look for it
+Before=@APP@-bridge.service @APP@-lessons.service
+
+[Service]
+Type=simple
+User=@USER@
+Group=@USER@
+SupplementaryGroups=audio gpio input
+# "-": the first start comes before the setup has written the file, so the setup sees the keys
+EnvironmentFile=-@ETC_DIR@/config.env
+Environment=PYTHONUNBUFFERED=1
+Environment=DATA_DIR=@VAR_DIR@
+# the keys play through the user's PipeWire, like everything else on the device
+Environment=XDG_RUNTIME_DIR=/run/user/@UID@
+WorkingDirectory=@VAR_DIR@
+ExecStart=@OPT_DIR@/device-venv/bin/python @OPT_DIR@/device/armonico_pi.py
+Restart=always
+RestartSec=3
+TimeoutStopSec=10
+# the keys' service that crashed or stopped while the alarm or a song plays stops them, with no key
+# pressed (piano_bridge.sh --stop-if-playing: the local stop request, only while something plays).
+# The screen program is watched by this service (armonico_pi.py, watch_screen).
+ExecStopPost=@OPT_DIR@/bridge/piano_bridge.sh --stop-if-playing "Armonico Pi keys stopped"
+# the keys are played by this process: it goes before everything else on a busy CPU
+Nice=-10
+# its sound thread runs in real time, as PipeWire's own: allowed here directly, since the limits of the
+# "pipewire" group (limits.d) are read only by a login, never by a service. Without it the thread waited
+# on rtkit, was left an ordinary one when the service started before rtkit, and the keys' sound ran dry
+# (ALSA "underrun occurred") whenever the Pi was busy, on every output and most of all on Bluetooth
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+
+# Hardening: the sound devices, /dev/gpiochip*, its data folder, the network and PipeWire's
+# socket in /run/user (so no ProtectHome, which hides /run/user)
+ProtectProc=invisible
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=@VAR_DIR@
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

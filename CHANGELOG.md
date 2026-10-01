@@ -1,0 +1,189 @@
+# Changelog
+
+## 1.0
+
+The first release: the bridge, the lesson engine and its screen, Home Assistant and Telegram, the Armonico Pi device and the Android app.
+
+### Highlights
+
+**New**
+- A game on the rest screen: a song you learned falls onto the keys in time, with 5 lives
+- A level filter for the songs; a long song is never marked for beginners
+- `armonico connect` over SSH: the broker, Home Assistant and Telegram, as in the install
+- More than one Home Assistant on the network: the setup asks which one
+- Settings pages glide when they scroll and follow the finger
+- An Android app: the bridge, the lessons and the alarm on a phone
+- Wi-Fi and Bluetooth switches in Settings › Network and links
+- Alarm clock icon and the next ring time in the top bar
+- The full path above each Settings title
+- One Night mode: sunset to sunrise, chosen hours or off, with a strength
+- Bluetooth headphones and speakers as a sound output
+- Wi-Fi from the screen, and a full check of the device
+- One Device test window, with 4 ways to check the device
+- Interface size from 80% to 150% (Settings › Look and screen)
+- Screen recording with the device's sound
+- A new start-up screen: the logo, what is being done, a bar that fills, then a fade
+- The network page shows the connection, signal, address and gateway
+- Profiles on the device: add, rename, change the PIN, delete (a backup first)
+- The opening tour: 7 steps through the screens, a pen loops around each part
+- The rest screen character talks, makes faces and plays an echo game
+- The little grand from the clip plays the echo game on its own keys
+- A touch on a star of the rest screen rings it
+- Hide the screen buttons (Settings › Look and screen); a touch shows them for 5 s
+- A QR code opens the lesson screen: end of setup, after Wi-Fi, in Network and links
+- Hebrew letters on the on-screen keyboard, wherever you type
+- Settings in a clearer order, and one Profiles card instead of two
+- Playback stops by itself when a service or the broker fails during a song or the alarm
+- The Wi-Fi and Bluetooth chips can be turned off completely, from the next restart
+- 13 keys, C to C: a high C key on GPIO 13
+- Armonico Pi: every song fits the 13 keys; a part past them moves a whole octave
+- Armonico Pi: parts learned by ear: listen, play back, a hint, then the gold key
+- After a power loss the device checks and repairs itself, then opens as usual
+- A deep check of the device with a 7-day history, also as `armonico check --deep`
+- Search songs online from the Songs screen
+- A phone-style number keypad for PINs and ports
+- Settings fit the screen's size, from 3.5" to 10", with scrolling and a position bar
+- Profiles: a page for each one, to switch to it, rename it, change its PIN or delete it
+- Songs from USB is on the Songs screen, beside Search online
+- A sound device that connects becomes an output at once
+- The headphone jack always plays; USB and Bluetooth play beside it
+- Saving a screen recording shows how far it is
+- The Output page shows each Bluetooth device's codec, or that it is in call mode
+- Delete any song from the Songs screen; a built-in song stays deleted after updates
+- The stop: any key or the sustain pedal, in the setup and in the Android app
+- Levels: each song gets one from its melody; the player's is chosen or follows the skills
+- Three beginner songs: Twinkle, Twinkle, Frère Jacques and Au clair de la lune
+- Armonico Pi: a new part starts by the level, with a new first round, watch and listen
+- Before it fades: at the end of a lesson, a part or two of other songs that are fading
+
+**Improved**
+- The tune is told from the bass and the band by its notes, also when tracks are misnamed
+- A chord of the other hand in a gap of the tune is left out of the melody
+- A tired lesson takes no more new parts and goes a step slower
+- A hesitation marks its step for a drill, at half the weight of a wrong key
+- A part that slipped starts later; the gold key while learning grades its start
+- The player's own forgetting curve is fitted from 60 showings
+- Armonico Pi: the key C moves to GPIO 15 (pin 10), so GPIO 4 is free for a HAT
+- Armonico Pi: the space bar of the on-screen keyboard is named in the keyboard's language
+- Armonico Pi: a touched key goes to the device directly, never lost with the broker
+- Armonico Pi: a finger that never reported lifting no longer blocks the next touches
+- By ear: four rounds from the easiest: the key leads, note by note, by ear, memory
+- By ear: rounds picked by how well you know the part; each round and help has a switch
+- Device test: each result opens its details: the log lines, every service's state
+- Device test: the hardware test is one of its ways in; the CPU temperature shows
+- Deep check: more measurements, and a short note beside each number on what it means
+- Bluetooth sound: a longer buffer, and Wi-Fi rests while it plays on a wired device
+- Bluetooth keys answer about 150 ms sooner: its buffer is 21 ms, not 170
+- Wi-Fi power saving is off: it shares one chip with the Bluetooth sound
+- Headphones left on their call link only are asked for their music link by themselves
+- The device runs on its own 5" DSI screen only: an HDMI screen and HDMI sound are off
+- The rest video is the 1280x720 original, not a 800x450 copy
+- With the buttons hidden, an empty "No song played yet" line is hidden too
+- The USB keyboard types, and left Shift + left Alt changes the language
+- A larger mouse pointer, in the usual Linux look
+- The mouse wheel moves one row for each notch
+- A Bluetooth output chosen alone plays (it was silent before)
+- The screen recording can record a chosen output
+- A recording keeps Bluetooth headphones in full quality (their microphone is not used)
+- A profile is switched to from its own page, with the PIN asked first
+- Each check opens with its own title and lines
+- Pause and resume from the songs list
+- No click when the rest video closes
+- The keys play without crackle on fast notes
+- Piano samples take a third of the memory
+- A drag scrolls and never presses; a short touch presses
+- Hebrew text fields write right to left
+- Long texts shrink to fit, then take a shorter form, and only then end with …
+- Pages that do not change redraw 8 times a second, not 30
+- The lesson screen's keyboard shows the device's 13 keys, the high C its own key
+- After a power loss, settings and learning data are repaired already at boot
+- Bluetooth devices are trusted before pairing, so they reconnect after a restart
+- A device disconnected by hand stays disconnected, also after a restart
+- Wording in Hebrew and English, across the screens and the docs
+- Screen recording is no longer a card in Settings; `armonico screen-rec` runs it
+- Settings have at most 8 cards on a page on the 5" screen
+- Search online finds pieces in movements (Vivaldi's seasons) and Hebrew words
+- On 7" and 10" at 140% and more, the cards are in two columns
+- A screen recording saves faster: the microphone is cleaned beside the picture
+- Hebrew status lines are written as nouns (חיפוש…, שמירה…)
+
+**Fixed**
+- A device key that chatters plays once: a press 40 ms after letting go is left out
+- Keys reach Home Assistant and the lessons sooner, through one open connection
+- The end of a lesson names a weak skill of the song just played, not another
+- A lesson title no longer shows "?" for a sign the device fonts do not have
+- The rest screen figure always answers, and is not angry twice in a row
+- The device uses less CPU at rest: its MIDI input no longer wakes 1000 times a second
+- A song from Home Assistant or Telegram no longer stops when the screen changes by itself
+- A lesson on a long piece starts sooner: the tempo is read without merging the whole file
+- A stop shows on the screen and in Home Assistant about 2 s sooner
+- One of something is said as one on the device: "1 minute", not "1 minutes"
+- A USB keyboard no longer plays every note twice: automatic sound, in one place
+- The Bluetooth quick check checks, instead of opening the pairing page
+- A sound device that disconnects says so, not that the sound moved
+- A full reset also forgets the Bluetooth devices, Wi-Fi networks and radios turned off
+- By ear on the device: every note sounds where its key is, so Higher and Lower are true
+- By ear: the part plays to its end, and a key touched while listening is no answer
+- By ear: the first note pressed later is a miss, not a silent start over
+- The device test no longer moves on by itself: each screen waits for Next or Finish
+- The automatic check no longer ends on the check by hand
+- A number and its unit (58 MB, 140 ms) no longer swap places in a Hebrew line
+- Bluetooth no longer goes silent when the rest video starts
+- A lesson opens on the song chosen: no warm-up of another song first
+- A lesson stopped before anything was played shows no summary card
+- The keys' sound thread runs in real time, as PipeWire's own
+- The rest video no longer restarts 2 seconds after the screen starts with sound on a mix
+- armonico-pi-report no longer starts the screen again (thread stacks only with --stacks)
+- Bluetooth no longer goes down a minute after boot when a headset was connected
+- The rest video keeps its sound after it loops or opens again
+- Night mode sets a fixed sound with each strength, never above the day volume
+- The alarm always rings at 100%, also in night mode
+- An alarm cut by a restart or a power cut is not rung again
+- The day volume comes back after the power was cut during night mode
+- No sound stream starts again muted or at 0 from an earlier time
+- A connected but silent Bluetooth device gets its sound back by itself
+- The full check says when Bluetooth went off with the Wi-Fi chip
+- The Bluetooth page no longer says "No Bluetooth adapter" for a moment
+- On a Pi, the Bluetooth page says why there is no Bluetooth instead of no adapter
+- The Bluetooth page keeps its place when the list changes, and says when the chip is stuck
+- A song stops when a lesson starts or another screen opens
+- The active profile can be deleted: the device moves to the main profile first
+- A profile delete waits up to a minute and says why when it does not go through
+- Clearer wording across Settings, profiles, songs and recording
+- The tests skip cleanly when pygame, numpy, fontTools or pyluach are missing
+- The power button is read from its own key, not from the HDMI CEC device
+- A recording keeps its full length when a sound source drops out
+- A Bluetooth tap during a refresh waits its turn instead of hanging
+- Backups have no size limit; free space is checked before writing
+- A restore updates the broker's logins and tests them
+- The screen stops retrying when no display is connected at boot
+- Free play names its notes in one way, not a mix of numbers, letters and Do Re Mi
+- Bluetooth no longer hangs: shorter waits, a Cancel button and a real disconnect
+- A song starts at once, and stops when the songs list is left
+- Bluetooth opened from the quick check returns to the quick check
+- Bluetooth scan finds devices again, and says how many it heard
+- Bluetooth lists the devices with no name in one folded row
+- Bluetooth pairing answers a PIN or a confirmation, and gives up cleanly after 25 s
+- Bluetooth asks again when the adapter answers late, and wakes it when it dropped
+- Bluetooth no longer takes a speaker for something else
+- The full reset installs again: its copy of the installer lacked CHANGELOG.md
+- The sleep screen moves smoothly (15 frames a second, a finer breath)
+- The corner rings of the touch test no longer lie on the bottom buttons
+- Text in the settings cards, and the title lines, stay inside at 150%
+- The Home Assistant token stays after a restart
+- Recording with a USB headset keeps the sound on the headphones
+- Skills show only what was practiced
+- The hardware test ends after the 13 keys and 4 buttons, with no knob to wait for
+- Cards no longer hide under the bottom buttons on long Settings pages
+- No more squares for ◂ ▸ and for names in other alphabets
+- A Bluetooth devices card shows the connected device, not only an arrow
+- A pairing is kept when the first connection after it is slow, instead of being removed
+- A removed Bluetooth device is not called back; tries for one away stop after 12
+- Wi-Fi comes back at once when the network cable is pulled while Bluetooth plays
+- The uninstall also removes the file system repair setting it added
+- The deep check reads the system log only when allowed, and counts the screen program
+- The high C key is 8 in the numbers, on every screen and in the browser
+- Bluetooth that connected at boot with no sound is connected again by itself
+- A song with a few bytes after its last track is no longer moved aside as damaged
+- A download is never kept cut short, or with no melody to learn
+- Wikimedia Commons is asked once more when it answers "too many requests"

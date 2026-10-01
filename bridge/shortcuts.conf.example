@@ -1,0 +1,8 @@
+# Shortcuts: a sequence of keys, then | and a name.
+# Keys are MIDI note numbers (middle C is 60). A sequence of 1 to 3 keys is
+# recognized after 2 seconds of silence; a longer one the moment it is played.
+# Add and remove shortcuts from Telegram with /seqlearn, /seqadd and /seqdel,
+# or edit this file directly: the bridge reloads it when it changes.
+#
+# No shortcuts are shipped. Add your own, one per line, for example:
+# 60 62 64|my_cue

@@ -1,0 +1,12 @@
+# @APP_TITLE@: backs up and restores the Armonico Pi when the screen asks.
+# The screen runs without root rights; it only writes the request file, and this
+# root unit, which it cannot change, writes the settings back and restarts the services.
+[Unit]
+Description=@APP_TITLE@ Pi backup request
+
+[Path]
+PathExists=@VAR_DIR@/device-backup-request
+Unit=@APP@-device-backup.service
+
+[Install]
+WantedBy=multi-user.target

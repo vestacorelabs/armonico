@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Armonico</string>
+    <string name="ch_alarm">שעון מעורר</string>
+    <string name="ringing">השעון המעורר מצלצל</string>
+    <string name="stop_alarm">עצירת השעון המעורר</string>
+    <string name="quiet_watch">השתקת השעון</string>
+    <string name="no_phone">הטלפון לא מחובר</string>
+    <string name="waiting_phone">מחכה לאפליקציה בטלפון</string>
+    <string name="bridge_off">הגשר כבוי</string>
+    <string name="keyboard_on">מחובר: %1$s</string>
+    <string name="keyboard_off">המקלדת לא מחוברת</string>
+    <string name="paused">מושהה: %1$s</string>
+    <string name="playing">מתנגן: %1$s</string>
+    <string name="stop">עצירה</string>
+    <string name="pause">השהיה</string>
+    <string name="resume">המשך</string>
+    <string name="lesson">שיעור פעיל</string>
+    <string name="next_alarm">שעון מעורר %1$s · %2$s</string>
+    <string name="songs">שירים</string>
+    <string name="shortcuts">קיצורים</string>
+    <string name="alarm_clock">שעון מעורר</string>
+    <string name="bridge_turn_off">כיבוי הגשר</string>
+    <string name="bridge_turn_on">הפעלת הגשר</string>
+    <string name="on_phone">פתיחה בטלפון</string>
+    <string name="opened_on_phone">נפתח בטלפון</string>
+    <string name="settings">הגדרות</string>
+    <string name="needs_bridge">הגשר צריך לפעול</string>
+    <string name="no_shortcuts">אין עדיין קיצורים. מלמדים אותם באפליקציה בטלפון.</string>
+    <string name="once">פעם אחת</string>
+    <string name="every_day">כל יום</string>
+    <string name="off">כבוי</string>
+    <string name="add_alarm">הוספת שעון מעורר</string>
+    <string name="no_songs">אין עדיין שירים בטלפון</string>
+    <string name="song">שיר</string>
+    <string name="alarm_on">פעיל</string>
+    <string name="save">שמירה</string>
+    <string name="saved">נשמר</string>
+    <string name="delete">מחיקה</string>
+    <string name="set_ring">הצגת השעון המעורר בשעון</string>
+    <string name="set_vibrate">רטט</string>
+    <string name="set_sound">צליל בשעון</string>
+    <string name="set_note">השעון המעורר תמיד מצלצל בפסנתר. כאן בוחרים מה השעון עושה איתו.</string>
+    <string name="snooze_n">נודניק %1$d דק\'</string>
+    <string name="set_snooze">נודניק: %1$d דקות</string>
+    <string name="set_buttons">כפתורים בזמן צלצול: %1$s</string>
+    <string name="btn_snooze">נודניק</string>
+    <string name="btn_stop">עצירה</string>
+    <string name="btn_quiet">השתקת השעון</string>
+    <string-array name="days_short">
+        <item>א</item>
+        <item>ב</item>
+        <item>ג</item>
+        <item>ד</item>
+        <item>ה</item>
+        <item>ו</item>
+        <item>ש</item>
+    </string-array>
+    <string name="paused_short">מושהה</string>
+    <string name="playing_short">מנגן</string>
+    <string name="no_alarm">אין שעון מעורר</string>
+    <string name="bridge_on_now">הגשר פועל</string>
+    <string name="bezel_hint">גע בשעות או בדקות וסובב את החוגה</string>
+    <string name="tile_label">Armonico</string>
+    <string name="tile_desc">הגשר, השעון המעורר הבא, עצירה, השהיה וקיצור מועדף</string>
+    <string name="comp_label">Armonico: השעון המעורר הבא</string>
+    <string name="set_tile_shortcut">קיצור באריח</string>
+    <string name="none_short">ללא</string>
+</resources>

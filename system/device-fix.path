@@ -1,0 +1,12 @@
+# @APP_TITLE@: a fix from the device's full diagnosis (restart mosquitto or the services).
+# The screen runs without root rights; it only writes the request file, and this
+# root unit, which it cannot change, does the one action it names.
+[Unit]
+Description=@APP_TITLE@ Pi fix request
+
+[Path]
+PathExists=@VAR_DIR@/device-fix-request
+Unit=@APP@-device-fix.service
+
+[Install]
+WantedBy=multi-user.target

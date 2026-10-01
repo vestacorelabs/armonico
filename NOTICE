@@ -1,0 +1,192 @@
+Armonico
+Copyright (c) 2026 Vesta Core Labs
+
+Armonico itself is released under the MIT License; the full text is in LICENSE.
+
+It ships with work by other people, under licenses of their own. Those licenses
+apply to that work wherever it goes, including in any copy or fork of this
+repository, and the notices below travel with it.
+
+
+--------------------------------------------------------------------------------
+Salamander Grand Piano V3
+--------------------------------------------------------------------------------
+Files:      lessons/sounds/piano/*.mp3
+Author:     Alexander Holm
+License:    Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+            https://creativecommons.org/licenses/by/3.0/
+Source:     https://archive.org/details/SalamanderGrandPianoV3
+Subset:     The 30 files here are the set prepared by the Tone.js project,
+            https://github.com/Tonejs/audio/tree/master/salamander
+Changes:    None. Used as recorded, as the grand piano voice of the lesson screen.
+Details:    lessons/sounds/piano/SOURCE.md
+
+Files:      device/samples/*.flac
+Author:     Alexander Holm
+License:    Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+Source:     The same recordings in their lossless FLAC edition,
+            https://github.com/sfzinstruments/SalamanderGrandPiano
+Changes:    The same 30 notes, cut to 7.5 seconds, mixed down to mono, 16 bit FLAC
+            at 48 kHz. Used as the key sounds of the Armonico Pi device.
+Details:    device/samples/SOURCE.md
+
+CC BY 3.0 asks that the author be credited. The credit appears next to the files,
+on the About page of the lesson screen, and here.
+
+
+--------------------------------------------------------------------------------
+Heebo
+--------------------------------------------------------------------------------
+Files:      lessons/fonts/heebo-hebrew.woff2
+            lessons/fonts/heebo-latin.woff2
+            lessons/fonts/heebo-latin-ext.woff2
+            android/app/src/main/res/font/heebo_medium.ttf, heebo_bold.ttf, heebo_extrabold.ttf
+Author:     The Heebo Project Authors, https://github.com/OdedEzer/heebo
+Copyright:  Copyright 2014 The Heebo Project Authors
+License:    SIL Open Font License, Version 1.1
+            Full text: lessons/fonts/OFL.txt
+Changes:    Subset to the character ranges the screen uses, converted to woff2. For the Android
+            app, the same three subsets merged and fixed at weights 500, 700 and 800 as TTF;
+            the app carries OFL.txt among its assets.
+
+The SIL Open Font License requires its text to travel with the font files.
+lessons/fonts/OFL.txt is installed alongside them and is one of the files the
+installer refuses to run without.
+
+
+--------------------------------------------------------------------------------
+JavaScript bundled in the status page
+--------------------------------------------------------------------------------
+Files:      screen/piano-status.html (one bundled script inside the page)
+Contents:   MQTT.js, the MQTT client the page uses, under the MIT License, with the
+            libraries it was bundled with:
+              ieee754 (BSD-3-Clause), Feross Aboukhadijeh
+              safe-buffer (MIT), Feross Aboukhadijeh
+              regenerator-runtime (MIT), Copyright (c) 2014-present, Facebook, Inc.
+Notices:    The license comment inside the bundle is kept as it came, near its end
+            ("Bundled license information").
+
+
+--------------------------------------------------------------------------------
+Mutopia Project editions
+--------------------------------------------------------------------------------
+Files:      setup/music/*.mid
+Source:     https://www.mutopiaproject.org/
+Status:     Public domain editions
+Changes:    Cut to short excerpts at a musical cadence, set to a single piano
+            voice, and some brought closer to a usual performance tempo.
+Details:    setup/music/SOURCES.md, which names every piece, its editor and its
+            Mutopia entry.
+
+
+--------------------------------------------------------------------------------
+Built-in cities
+--------------------------------------------------------------------------------
+Files:      device/ui/data/cities.json
+Source:     Open-Meteo's geocoding API (https://open-meteo.com/), from GeoNames data
+License:    Creative Commons Attribution 4.0 International (CC BY 4.0)
+Changes:    A short list of cities kept for offline use: name in English and Hebrew,
+            country, coordinates and time zone. The device's About page credits it.
+
+
+--------------------------------------------------------------------------------
+Stars
+--------------------------------------------------------------------------------
+Files:      device/ui/data/stars.json
+Source:     The star data of d3-celestial by Olaf Frohn (https://github.com/ofrohn/d3-celestial),
+            from XHIP, an extended Hipparcos compilation (Anderson and Francis, 2012)
+License:    BSD 3-Clause, the text below
+Changes:    The stars to magnitude 4 only: position, magnitude and the common name.
+
+Copyright (c) 2015, Olaf Frohn
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software without
+specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+--------------------------------------------------------------------------------
+Rest screen video
+--------------------------------------------------------------------------------
+Files:      device/media/armonico-japanese.mp4
+Made by:    Vesta Core Labs, for Armonico
+Tools:      The music was generated with Suno on a paid plan, which grants commercial
+            use of songs made while subscribed. The pictures were generated with Google
+            Gemini.
+
+
+--------------------------------------------------------------------------------
+Algorithms
+--------------------------------------------------------------------------------
+Name:       FSRS-4.5, its forgetting curve and default weights (lessons/piano_learner.py)
+Author:     The open-spaced-repetition contributors
+License:    MIT
+Source:     https://github.com/open-spaced-repetition/awesome-fsrs/wiki/The-Algorithm
+Changes:    Written again from the published formulas; no code copied. Armonico adds its
+            own same-day rule, starting stability, grading and safe fit around it.
+
+
+--------------------------------------------------------------------------------
+Fluid (R3) SoundFont
+--------------------------------------------------------------------------------
+Files:      device/samples/gm/*/*.flac
+Author:     Frank Wen, with the contributors named in its README
+Copyright:  Copyright (c) 2000-2002, 2008 Frank Wen
+License:    MIT
+Source:     FluidR3_GM.sf2, as packaged in Debian and Ubuntu (fluid-soundfont-gm 3.1),
+            first published at http://www.musescore.org/download/fluid-soundfont.tar.gz
+Changes:    15 voices (one for each General MIDI family apart from the piano) and the
+            drum kit, played note by note through FluidSynth with no reverb or chorus,
+            every fourth semitone, cut to a few seconds, made mono, leveled per
+            voice and stored as 16 bit FLAC at 48 kHz. Used as the other voices and
+            the drums of the Armonico Pi device.
+Details:    device/samples/gm/SOURCE.md
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in the
+Software without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+--------------------------------------------------------------------------------
+Songs downloaded at run time
+--------------------------------------------------------------------------------
+The song search reaches only the Mutopia Project and Wikimedia Commons, and the
+license of each file is recorded next to it when it is saved. Those files are not
+part of this repository and are not covered by its license. Some carry a
+share-alike condition, which applies to whoever redistributes them.
+Details: docs/sources.md
