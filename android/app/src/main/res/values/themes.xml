@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- no action bar: the app draws its own header, in the lesson screen's style -->
+    <style name="Theme.Armonico" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/ink</item>
+        <item name="android:colorAccent">@color/gold</item>
+        <item name="android:windowBackground">@color/page</item>
+    </style>
+</resources>

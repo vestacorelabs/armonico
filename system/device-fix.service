@@ -1,0 +1,14 @@
+# @APP_TITLE@: the fixes the device's full diagnosis may ask for. device/diag.py apply knows
+# only two: restart mosquitto, restart the Armonico services.
+[Unit]
+Description=@APP_TITLE@ Pi fix
+
+[Service]
+Type=oneshot
+Environment=DATA_DIR=@VAR_DIR@
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/device/diag.py apply
+TimeoutStartSec=180
+PrivateTmp=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+UMask=0027

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Local settings and data, never committed
+config.env
+*.env
+lessons.json
+shortcuts.conf
+*.lock
+*.tmp
+
+# Editors and systems
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Runtime data, never committed
+profiles.json
+history.json
+settings.json
+screen_code
+screen_secret
+last_chat
+edit-mode
+text_overrides.json
+update-request
+update-status.json
+recordings/
+mqtt/
+*.log
+
+# Built release files
+dist/

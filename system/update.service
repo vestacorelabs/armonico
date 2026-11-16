@@ -1,0 +1,24 @@
+# @APP_TITLE@: downloads the requested release from GitHub and runs its installer.
+[Unit]
+Description=@APP_TITLE@ update
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=@OPT_DIR@/setup/update.sh
+TimeoutStartSec=30min
+
+# This unit installs a release, so it runs as root and writes where the installer writes:
+# ProtectSystem and ProtectHome would stop it doing its job, and ProtectKernelModules would
+# stop the installer loading the ALSA sequencer. What is left are the limits that cost it
+# nothing: its own /tmp, no gaining rights through a setuid file it unpacked, and no asking
+# the kernel to run as another kind of machine. The real guard on this path is upstream:
+# the release is checked against its published checksum before anything here runs it.
+PrivateTmp=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictRealtime=yes
+ProtectClock=yes
+ProtectHostname=yes
+UMask=0022

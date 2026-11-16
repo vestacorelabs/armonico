@@ -1,0 +1,574 @@
+# Made from piano.yaml for Armonico Pi (pianoDevice/): setup/ha_setup.py, do not edit by hand.
+# Home Assistant package for the piano bridge.
+#
+# One file with everything Home Assistant needs: the MQTT sensors, the helpers,
+# and the automations that connect the Telegram bot to the piano.
+# Installation: docs/home-assistant.md.
+#
+# Requirements: the MQTT integration, connected to the same broker as the piano,
+# and the Telegram bot integration (only for the Telegram commands).
+
+# ----------------------------------------------------------------------
+# Sensors: everything the bridge and the lesson engine publish
+# ----------------------------------------------------------------------
+mqtt:
+  sensor:
+    - name: "Armonico Pi Status"
+      unique_id: armonico_pi_status
+      state_topic: "pianoDevice/status"
+      icon: mdi:piano
+      device: &armonico_pi_device
+        identifiers: ["armonico_pi_bridge"]
+        name: "Armonico Pi"
+        manufacturer: "Vesta Core Labs"
+        model: "MIDI bridge"
+
+    - name: "Armonico Pi Alert"
+      unique_id: armonico_pi_alert
+      state_topic: "pianoDevice/alert"
+      icon: mdi:alert
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Port"
+      unique_id: armonico_pi_port
+      state_topic: "pianoDevice/port"
+      icon: mdi:usb-port
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Play Status"
+      unique_id: armonico_pi_play_status
+      state_topic: "pianoDevice/play/status"
+      icon: mdi:play-pause
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Now Playing"
+      unique_id: armonico_pi_now_playing
+      state_topic: "pianoDevice/play/current"
+      icon: mdi:music-note
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Play Source"
+      unique_id: armonico_pi_play_source
+      state_topic: "pianoDevice/play/source"
+      icon: mdi:account-music
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Play Duration"
+      unique_id: armonico_pi_play_duration
+      state_topic: "pianoDevice/play/duration"
+      icon: mdi:timer-outline
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Last Finished"
+      unique_id: armonico_pi_last_finished
+      state_topic: "pianoDevice/play/last_finished"
+      icon: mdi:music-note-outline
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Play Stopped By"
+      unique_id: armonico_pi_play_stopped_by
+      state_topic: "pianoDevice/play/stopped_by"
+      icon: mdi:stop-circle-outline
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Alarm Status"
+      unique_id: armonico_pi_alarm_status
+      state_topic: "pianoDevice/alarm/status"
+      icon: mdi:alarm
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Alarm Stopped By"
+      unique_id: armonico_pi_alarm_stopped_by
+      state_topic: "pianoDevice/alarm/stopped_by"
+      icon: mdi:alarm-off
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Alarm Last Song"
+      unique_id: armonico_pi_alarm_last_song
+      state_topic: "pianoDevice/alarm/last_song"
+      icon: mdi:alarm-note
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Alarm Error"
+      unique_id: armonico_pi_alarm_error
+      state_topic: "pianoDevice/alarm/error"
+      icon: mdi:alarm-off
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Last Shortcut"
+      unique_id: armonico_pi_last_shortcut
+      state_topic: "pianoDevice/shortcut"
+      icon: mdi:keyboard
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Log"
+      unique_id: armonico_pi_log
+      state_topic: "pianoDevice/log"
+      icon: mdi:text-long
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Disconnect Reason"
+      unique_id: armonico_pi_disconnect_reason
+      state_topic: "pianoDevice/disconnect/reason"
+      icon: mdi:usb-flash-drive-outline
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Disconnect Source"
+      unique_id: armonico_pi_disconnect_source
+      state_topic: "pianoDevice/disconnect/source"
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Disconnect Uptime"
+      unique_id: armonico_pi_disconnect_uptime
+      state_topic: "pianoDevice/disconnect/uptime"
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Disconnect Activity"
+      unique_id: armonico_pi_disconnect_activity
+      state_topic: "pianoDevice/disconnect/activity"
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Disconnect Time"
+      unique_id: armonico_pi_disconnect_time
+      state_topic: "pianoDevice/disconnect/time"
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Game Status"
+      unique_id: armonico_pi_game_status
+      state_topic: "pianoDevice/game/status"
+      icon: mdi:school
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Game Song"
+      unique_id: armonico_pi_game_song
+      state_topic: "pianoDevice/game/song"
+      icon: mdi:music-box
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Game Score"
+      unique_id: armonico_pi_game_score
+      state_topic: "pianoDevice/game/score"
+      unit_of_measurement: "%"
+      state_class: measurement
+      icon: mdi:star
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Game Keyboard"
+      unique_id: armonico_pi_game_keyboard
+      state_topic: "pianoDevice/game/piano"
+      icon: mdi:usb
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    # en or he: the language chosen on the lesson screen. The Telegram answers below follow it
+    - name: "Armonico Pi Language"
+      unique_id: armonico_pi_language
+      state_topic: "pianoDevice/lang"
+      icon: mdi:translate
+      entity_category: diagnostic
+      device: *armonico_pi_device
+
+    # who is at the piano now: the profile chosen on the lesson screen ("main" for the first one)
+    - name: "Armonico Pi Profile"
+      unique_id: armonico_pi_profile
+      state_topic: "pianoDevice/profile"
+      icon: mdi:account-music
+      device: *armonico_pi_device
+
+    # today's practice, for the reminder blueprint: published by the lesson engine every 10 minutes
+    # and after each lesson, retained
+    - name: "Armonico Pi Lessons Today"
+      unique_id: armonico_pi_lessons_today
+      state_topic: "pianoDevice/practice"
+      value_template: "{{ value_json.lessons_today }}"
+      json_attributes_topic: "pianoDevice/practice"
+      state_class: measurement
+      icon: mdi:calendar-check
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Parts Due"
+      unique_id: armonico_pi_parts_due
+      state_topic: "pianoDevice/practice"
+      value_template: "{{ value_json.due }}"
+      state_class: measurement
+      icon: mdi:repeat
+      device: *armonico_pi_device
+
+    - name: "Armonico Pi Streak"
+      unique_id: armonico_pi_streak
+      state_topic: "pianoDevice/practice"
+      value_template: "{{ value_json.streak }}"
+      unit_of_measurement: "days"
+      icon: mdi:fire
+      device: *armonico_pi_device
+
+# ----------------------------------------------------------------------
+# Helpers
+# ----------------------------------------------------------------------
+input_boolean:
+  armonico_pi_alarm_stop:
+    name: "Armonico Pi Alarm Stop"
+    icon: mdi:alarm-off
+
+input_text:
+  armonico_pi_log_chat_id:
+    name: "Armonico Pi Log Chat ID"
+    icon: mdi:message-text
+  # the chat that last sent a command, for the keyboard alerts (stuck, back again)
+  armonico_pi_alert_chat_id:
+    name: "Armonico Pi Alert Chat ID"
+    icon: mdi:message-alert
+  # the Telegram bot that got the last command (its config entry). With more than one bot in Home Assistant,
+  # telegram_bot.send_message fails without it ("Please specify at least 1 notify entity"), and no piano answered
+  armonico_pi_bot_entry:
+    name: "Armonico Pi Telegram Bot"
+    icon: mdi:robot
+
+input_datetime:
+  armonico_pi_last_played:
+    name: "Armonico Pi Last Played"
+    has_date: true
+    has_time: true
+
+# ----------------------------------------------------------------------
+# Automations
+# ----------------------------------------------------------------------
+automation:
+  # Commands from Telegram. Most of them are passed to the bridge or the lesson
+  # engine, which answer the chat themselves through pianoDevice/shortcut/reply.
+  - id: armonico_pi_telegram_commands
+    alias: "Armonico Pi: Telegram commands"
+    mode: queued
+    triggers:
+      - trigger: event
+        event_type: telegram_command
+    variables:
+      command: "{{ trigger.event.data.command }}"
+      chat: "{{ trigger.event.data.chat_id }}"
+      bot: "{{ (trigger.event.data.bot or {}).get('config_entry_id', '') }}"
+      # One list of commands for every piano. A first word that names one (piano, device for the Armonico Pi,
+      # android for the phone) sends the command there: /pianoplay device ode_to_joy. Without it the command
+      # goes to the piano Home Assistant has, the big piano first. The word is not passed on.
+      words: "{{ trigger.event.data.args or [] }}"
+      target: "{{ (words[0] | lower) if words and (words[0] | lower) in ['piano', 'device', 'android'] else '' }}"
+      args: "{{ (words[1:] if target else words) | join(' ') }}"
+      mine: "{{ target == 'device' or (target == '' and states('sensor.piano_status') in ['unknown', 'unavailable']) }}"
+      # The admin secret (MQTT_ADMIN_SECRET in /etc/armonico/config.env). /pianocode and
+      # /pianoprofile are guarded commands and the lesson engine answers them only with it.
+      # By hand: one line in secrets.yaml, see docs/home-assistant.md. The installer puts
+      # the value itself here when it sets Home Assistant up.
+      admin: !secret armonico_device_admin_secret
+    conditions:
+      - "{{ mine }}"
+    actions:
+      # the bot that got the command, for the answers that come back later (armonico_pi_telegram_forward)
+      - if:
+          - "{{ bot != '' and states('input_text.armonico_pi_bot_entry') != bot }}"
+        then:
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.armonico_pi_bot_entry
+            data:
+              value: "{{ bot }}"
+      # the keyboard alerts go to the chat that used the piano last (armonico_pi_alert_forward)
+      - if:
+          - "{{ states('input_text.armonico_pi_alert_chat_id') != chat | string }}"
+        then:
+          - action: input_text.set_value
+            target:
+              entity_id: input_text.armonico_pi_alert_chat_id
+            data:
+              value: "{{ chat }}"
+      - choose:
+          - conditions: "{{ command == '/pianostatus' }}"
+            sequence:
+              - action: telegram_bot.send_message
+                data:
+                  config_entry_id: "{{ bot }}"
+                  chat_id: "{{ chat | int }}"
+                  parse_mode: plain_text
+                  message: |-
+                    {%- macro nice(s) -%}{{ s | regex_replace('([a-z])([A-Z])', '\\1 \\2') | replace('_', ' ') | trim }}{%- endmacro -%}
+                    {%- set bad = ['unknown', 'unavailable', 'none', ''] -%}
+                    {%- set st = states('sensor.armonico_pi_status') -%}
+                    {%- set conn = {'online': 'connected ✅', 'offline': 'offline ❌', 'starting': 'starting 🟡',
+                                    'resetting': 'resetting 🔄', 'reconnecting': 'reconnecting ⏳',
+                                    'disconnected': 'disconnected ⚠️', 'timeout': 'did not come back ⛔',
+                                    'stuck': 'stuck, switch it off and on 🔌'} -%}
+                    {%- set playing = states('sensor.armonico_pi_play_status') == 'playing' -%}
+                    {%- set source = states('sensor.armonico_pi_play_source') -%}
+                    {%- set alarm_on = states('sensor.armonico_pi_alarm_status') == 'on' -%}
+                    {%- set stopped_by = states('sensor.armonico_pi_alarm_stopped_by') -%}
+                    {%- set last_sc = states('sensor.armonico_pi_last_shortcut') -%}
+                    {%- set last_song = states('sensor.armonico_pi_last_finished') -%}
+                    {%- set song_stop = states('sensor.armonico_pi_play_stopped_by') -%}
+                    {%- set alarm_song = states('sensor.armonico_pi_alarm_last_song') -%}
+                    {#- Hebrew: each line starts with an invisible right-to-left mark (U+200F) and ends with its emoji,
+                        and the date starts with a left-to-right mark (U+200E) so the day and the time keep their order -#}
+                    {%- if is_state('sensor.armonico_pi_language', 'he') -%}
+                    {%- set conn = {'online': 'מחוברת ✅', 'offline': 'לא מחוברת ❌', 'starting': 'עולה 🟡',
+                                    'resetting': 'מתאפסת 🔄', 'reconnecting': 'מתחברת מחדש ⏳',
+                                    'disconnected': 'התנתקה ⚠️', 'timeout': 'לא חזרה ⛔',
+                                    'stuck': 'תקועה, צריך לכבות ולהדליק 🔌'} -%}
+                    ‏מצב Armonico Pi 🎹
+
+                    ‏מקלדת: {{ conn.get(st, st) }} 🔌
+                    ‏נגן: {{ 'מנגן 🎶' if playing else 'במנוחה 💤' }} 🎼
+                    {%- if playing %}
+                    ‏מתנגן עכשיו: {{ nice(states('sensor.armonico_pi_now_playing')) }} ▶️
+                    ‏אורך: {{ states('sensor.armonico_pi_play_duration') }} ⏱️
+                    {%- if source not in bad %}
+                    ‏הופעל על ידי: {{ source }} 🤖
+                    {%- endif %}
+                    {%- elif last_song not in bad %}
+                    ‏השיר האחרון: {{ nice(last_song) }} ⏮️
+                    {%- if song_stop == 'Finished' %}
+                    ‏נוגן עד הסוף ✅
+                    {%- elif song_stop not in bad %}
+                    ‏נעצר על ידי: {{ song_stop }} 🛑
+                    {%- endif %}
+                    {%- endif %}
+
+                    ‏שעון מעורר: {{ 'מצלצל 🔔' if alarm_on else 'כבוי 🔕' }} ⏰
+                    {%- if alarm_song not in bad %}
+                    ‏שיר ההשכמה האחרון: {{ nice(alarm_song) }} 🎵
+                    {%- endif %}
+                    {%- if not alarm_on and stopped_by not in bad and not (alarm_song == last_song and stopped_by == song_stop) %}
+                    ‏נעצר על ידי: {{ stopped_by }} 🛑
+                    {%- endif %}
+
+                    ‏הקיצור האחרון: {{ nice(last_sc) if last_sc not in bad else 'אין' }} ⌨️
+                    ‏עודכן: ‎{{ now().strftime('%d/%m %H:%M:%S') }} 🕐
+                    {%- else -%}
+                    🎹 Armonico Pi status
+
+                    🔌 Keyboard: {{ conn.get(st, st) }}
+                    🎼 Player: {{ 'playing 🎶' if playing else 'idle 💤' }}
+                    {%- if playing %}
+                    ▶️ Now playing: {{ nice(states('sensor.armonico_pi_now_playing')) }}
+                    ⏱️ Length: {{ states('sensor.armonico_pi_play_duration') }}
+                    {%- if source not in bad %}
+                    🤖 Started by: {{ source }}
+                    {%- endif %}
+                    {%- elif last_song not in bad %}
+                    ⏮️ Last song: {{ nice(last_song) }}
+                    {%- if song_stop == 'Finished' %}
+                    ✅ Played to the end
+                    {%- elif song_stop not in bad %}
+                    🛑 Stopped by: {{ song_stop }}
+                    {%- endif %}
+                    {%- endif %}
+
+                    ⏰ Alarm: {{ 'ringing 🔔' if alarm_on else 'off 🔕' }}
+                    {%- if alarm_song not in bad %}
+                    🎵 Last alarm song: {{ nice(alarm_song) }}
+                    {%- endif %}
+                    {%- if not alarm_on and stopped_by not in bad and not (alarm_song == last_song and stopped_by == song_stop) %}
+                    🛑 Stopped by: {{ stopped_by }}
+                    {%- endif %}
+
+                    ⌨️ Last shortcut: {{ nice(last_sc) if last_sc not in bad else 'none' }}
+                    🕐 Updated: {{ now().strftime('%d/%m %H:%M:%S') }}
+                    {%- endif %}
+
+          - conditions: "{{ command == '/showlog' }}"
+            sequence:
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.armonico_pi_log_chat_id
+                data:
+                  value: "{{ chat }}"
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/log/control
+                  payload: start
+              - action: telegram_bot.send_message
+                data:
+                  config_entry_id: "{{ bot }}"
+                  chat_id: "{{ chat | int }}"
+                  message: "{{ '‏הלוג החי פועל 🟢' if is_state('sensor.armonico_pi_language', 'he') else '🟢 Live log on' }}"
+
+          - conditions: "{{ command == '/stoplog' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/log/control
+                  payload: stop
+              - action: input_text.set_value
+                target:
+                  entity_id: input_text.armonico_pi_log_chat_id
+                data:
+                  value: ""
+              - action: telegram_bot.send_message
+                data:
+                  config_entry_id: "{{ bot }}"
+                  chat_id: "{{ chat | int }}"
+                  message: "{{ '‏הלוג החי כבוי 🔴' if is_state('sensor.armonico_pi_language', 'he') else '🔴 Live log off' }}"
+
+          - conditions: "{{ command == '/pianostop' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/stop
+                  payload: Telegram
+              - action: telegram_bot.send_message
+                data:
+                  config_entry_id: "{{ bot }}"
+                  chat_id: "{{ chat | int }}"
+                  message: "{{ '‏נשלחה עצירה ⏹️' if is_state('sensor.armonico_pi_language', 'he') else '⏹️ Stop sent' }}"
+
+          # the bridge checks the song and answers the chat itself
+          - conditions: "{{ command in ['/pianoplay', '/pianosongs'] }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/shortcut/cmd
+                  payload: "{{ {'/pianoplay': 'play', '/pianosongs': 'songs'}[command] }}|{{ chat }}|{{ args }}"
+
+          # the full reset: the bridge asks the root reset unit and answers the chat. It needs the admin secret
+          - conditions: "{{ command == '/pianoreset' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/shortcut/cmd
+                  payload: "reset|{{ chat }}|secret:{{ admin }}"
+
+          # shortcuts: /seqlist /seqadd /seqdel /seqlearn /seqcancel -> list add del learn cancel
+          - conditions: "{{ command in ['/seqlist', '/seqadd', '/seqdel', '/seqlearn', '/seqcancel'] }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/shortcut/cmd
+                  payload: "{{ command[4:] }}|{{ chat }}|{{ args }}"
+
+          # lessons
+          - conditions: "{{ command in ['/lesson', '/lessons', '/lessonstop', '/getmidi'] }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/game/cmd
+                  payload: "{{ command[1:] }}|{{ chat }}|{{ args }}"
+
+          # profiles: /pianoprofile [name] -> profile
+          - conditions: "{{ command == '/pianoprofile' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/game/cmd
+                  payload: "profile|{{ chat }}|secret:{{ admin }} {{ args }}"
+
+          # the lesson screen's code: /pianocode -> code
+          - conditions: "{{ command == '/pianocode' }}"
+            sequence:
+              - action: mqtt.publish
+                data:
+                  topic: pianoDevice/game/cmd
+                  payload: "code|{{ chat }}|secret:{{ admin }}"
+
+  # Answers from the bridge and the lesson engine, and the live log, sent to Telegram
+  - id: armonico_pi_telegram_forward
+    alias: "Armonico Pi: forward replies and the live log to Telegram"
+    mode: queued
+    max: 30
+    triggers:
+      - trigger: mqtt
+        topic: pianoDevice/log
+        id: log
+      - trigger: mqtt
+        topic: pianoDevice/shortcut/reply
+        id: reply
+    actions:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: log
+              - "{{ states('input_text.armonico_pi_log_chat_id') not in ['', 'unknown', 'unavailable'] }}"
+            sequence:
+              - action: telegram_bot.send_message
+                data:
+                  config_entry_id: "{{ states('input_text.armonico_pi_bot_entry') }}"
+                  chat_id: "{{ states('input_text.armonico_pi_log_chat_id') | int }}"
+                  parse_mode: plain_text
+                  message: "{{ trigger.payload }}"
+          # answers for the armonico command in a terminal carry a chat id like cli-1a2b3c4d, not a number
+          - conditions:
+              - condition: trigger
+                id: reply
+              - "{{ trigger.payload.split('|', 1)[0] | regex_match('^-?[0-9]+$') }}"
+            sequence:
+              - variables:
+                  parts: "{{ trigger.payload.split('|', 1) }}"
+              - action: telegram_bot.send_message
+                data:
+                  config_entry_id: "{{ states('input_text.armonico_pi_bot_entry') }}"
+                  chat_id: "{{ parts[0] | int }}"
+                  parse_mode: plain_text
+                  message: "{{ parts[1] }}"
+
+  # Forwards a keyboard alert (stuck, needs a power-cycle; or back again) to Telegram, to the chat
+  # that sent the last command (armonico_pi_alert_chat_id, kept by "Armonico Pi: Telegram commands"). Nothing is
+  # sent until a Telegram command was used once.
+  - id: armonico_pi_alert_forward
+    alias: "Armonico Pi: forward keyboard alerts to Telegram"
+    mode: queued
+    max: 10
+    triggers:
+      - trigger: mqtt
+        topic: pianoDevice/alert
+    conditions:
+      - "{{ trigger.payload | trim != '' }}"
+      - "{{ states('input_text.armonico_pi_alert_chat_id') not in ['', 'unknown', 'unavailable'] }}"
+    actions:
+      - action: telegram_bot.send_message
+        data:
+          config_entry_id: "{{ states('input_text.armonico_pi_bot_entry') }}"
+          chat_id: "{{ states('input_text.armonico_pi_alert_chat_id') | int }}"
+          parse_mode: plain_text
+          message: "{{ trigger.payload }}"
+
+  # Ends the alarm loop of the alarm blueprint when a person stopped the alarm: the stop key,
+  # /pianostop, or anything else that publishes to pianoDevice/stop. It listens to the reason the bridge
+  # gives, not to the alarm status: the status also goes to "off" whenever the bridge starts or
+  # the keyboard is switched off or unplugged, and none of those is somebody stopping the alarm.
+  # A keyboard that vanished leaves the loop running, so the alarm plays again when it is back.
+  # A bridge that went down while the alarm rang says "Restart" when it starts again, which ends the loop.
+  - id: armonico_pi_alarm_stopped
+    alias: "Armonico Pi: alarm stopped"
+    mode: single
+    triggers:
+      - trigger: mqtt
+        topic: pianoDevice/alarm/stopped_by
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ trigger.payload not in ['unknown', 'Keyboard disconnected', 'Playback error', 'unavailable', '']
+             and not trigger.payload.startswith('Reset') }}
+      - condition: state
+        entity_id: input_boolean.armonico_pi_alarm_stop
+        state: "off"
+    actions:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.armonico_pi_alarm_stop
+
+  # Keeps the time a shortcut was last played
+  - id: armonico_pi_last_played
+    alias: "Armonico Pi: last played"
+    mode: queued
+    triggers:
+      - trigger: mqtt
+        topic: pianoDevice/shortcut
+    actions:
+      - action: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.armonico_pi_last_played
+        data:
+          datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"

@@ -1,0 +1,11 @@
+# @APP_TITLE@: standalone (the broker on the device) or lab (the broker in the house).
+[Unit]
+Description=@APP_TITLE@ Pi mode switch
+
+[Service]
+Type=oneshot
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/cli/armonico.py device-mode apply
+PrivateTmp=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+UMask=0027

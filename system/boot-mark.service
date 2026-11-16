@@ -1,0 +1,38 @@
+# @APP_TITLE@: the "running" marker of Armonico Pi. Written at boot, removed at a clean shutdown or reboot.
+# A boot that finds the marker of an earlier boot was a power loss: the screen then shows the recovery
+# (device/powerloss.py, device/ui/views_power.py). Enabled only on the device (install.sh --device).
+# A template: install.sh fills in the @...@ placeholders and installs it as /etc/systemd/system/@APP@-boot-mark.service.
+
+[Unit]
+Description=@APP_TITLE@ clean-shutdown marker
+After=local-fs.target
+# before the programs that record and play, so a recording cut off by the power is put aside before the
+# recorder deletes its parts
+Before=@APP@-device.service @APP@-screen.service @APP@-lessons.service @APP@-bridge.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=@USER@
+Group=@USER@
+Environment=DATA_DIR=@VAR_DIR@
+# "-": a failure here must never hold up the boot
+ExecStart=-@OPT_DIR@/venv/bin/python @OPT_DIR@/device/powerloss.py boot
+# stopping this unit is what a shutdown or a reboot does, early enough that the SD card is still writable
+ExecStop=-@OPT_DIR@/venv/bin/python @OPT_DIR@/device/powerloss.py clean
+TimeoutStartSec=30
+TimeoutStopSec=20
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=@VAR_DIR@
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

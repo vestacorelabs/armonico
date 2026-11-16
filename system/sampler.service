@@ -1,0 +1,33 @@
+# @APP_TITLE@: one light reading for the deep check's history (device/deepcheck.py sample), run by
+# @APP@-sampler.timer every 5 minutes. The readings wait in /run (RAM); once an hour they become one line of
+# @VAR_DIR@/checks/history.json.
+# A template: install.sh fills in the @...@ placeholders and installs it as /etc/systemd/system/@APP@-sampler.service.
+
+[Unit]
+Description=@APP_TITLE@ history sampler
+
+[Service]
+Type=oneshot
+User=@USER@
+Group=@USER@
+# install.sh drops this line on a machine with no video group
+SupplementaryGroups=@VIDEO_GROUP@
+Environment=DATA_DIR=@VAR_DIR@
+Environment=DEEPCHECK_RUN=/run/@APP@-deepcheck
+RuntimeDirectory=@APP@-deepcheck
+RuntimeDirectoryPreserve=yes
+ExecStart=@OPT_DIR@/venv/bin/python @OPT_DIR@/device/deepcheck.py sample
+Nice=19
+IOSchedulingClass=idle
+CPUSchedulingPolicy=idle
+TimeoutStartSec=60
+
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=@VAR_DIR@
+ProtectHome=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes

@@ -1,0 +1,18 @@
+# @APP_TITLE@: greetd for the Armonico Pi screen. A template: install.sh fills in the @...@
+# placeholders and writes it as @ETC_DIR@/greetd.toml, read by @APP@-screen.service.
+# No greeter and no password: the device's screen user logs in by itself.
+
+[terminal]
+# VT 7, as the desktop's login manager uses; tty1 keeps the console text of the boot
+vt = 7
+
+# Once at boot: the screen, as an ordinary login of the screen user
+[initial_session]
+command = "@OPT_DIR@/device/session.sh"
+user = "@USER@"
+
+# Whenever the session above ends (the screen program restarting itself, or a crash):
+# the same screen again, at once
+[default_session]
+command = "@OPT_DIR@/device/session.sh"
+user = "@USER@"

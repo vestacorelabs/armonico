@@ -1,0 +1,13 @@
+# @APP_TITLE@: the history sampler, every 5 minutes (@APP@-sampler.service). Little work: one short
+# reading of /proc and systemd's counters, kept in RAM.
+
+[Unit]
+Description=@APP_TITLE@ history sampler, every 5 minutes
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=5min
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target

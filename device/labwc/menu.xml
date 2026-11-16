@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<!-- empty: a click beside the screen's window opens nothing -->
+<openbox_menu>
+  <menu id="root-menu" label="" />
+</openbox_menu>

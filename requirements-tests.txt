@@ -1,0 +1,30 @@
+# What the Armonico Pi screen's tests and the Home Assistant package's test need on top of
+# requirements.txt. Without them those tests are skipped, so the CI installs these too.
+# Pinned with hashes for Python 3.11 on x86_64 Linux, the CI's runner.
+#
+# Adding or moving a version means recording its real hash, for example:
+#   pip download --no-deps --only-binary=:all: --python-version 3.11 --dest /tmp/p <package>==<version>
+#   sha256sum /tmp/p/*
+pygame==2.6.1 \
+    --hash=sha256:ce8cc108b92de9b149b344ad2e25eedbe773af0dc41dfb24d1f07f679b558c60
+fonttools==4.68.0 \
+    --hash=sha256:4b9c89b5876f1a74b1341632dfaf4c4c2be565d76c060445df401ebe7a4ceefa
+brotli==1.2.1 \
+    --hash=sha256:6b3c3d5794212a54434b4856f808f7bdf7ad48eacadaadb5b2346fc9a639365a
+python-bidi==0.6.12 \
+    --hash=sha256:96d620f9d1617b0a22ed606eb94339fb763deec9ed97ae4bdba858131b2d7759
+astronomy-engine==2.1.19 \
+    --hash=sha256:232ba7dd2bbf42225c48be6721b676e8c6c079dbd4588d2781dfa68adcb6f67f
+pyluach==2.3.0 \
+    --hash=sha256:4497b731aef59508b079dbf5f00bc5bf4329ac45090a6cd37b5a83756f0e69ab
+zxing-cpp==3.1.1 \
+    --hash=sha256:8a5b32d719a5448f1b2f474e04d2db6ce41cc6973fb5c705d47dbe899361e5f9
+numpy==2.4.6 \
+    --hash=sha256:89cd468399cfd2504718f0ba50e410dca55a170b61a02ad92bb18c8a65186e93
+pyyaml==6.0.3 \
+    --hash=sha256:b8bb0864c5a28024fac8a632c443c87c5aa6f215c0b126c449ae1a150412f31d
+# the Home Assistant templates' test renders them
+jinja2==3.1.6 \
+    --hash=sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67
+markupsafe==3.0.4 \
+    --hash=sha256:6da83a088f8ef93b2d483a8232a4dbf4d69d3d8496b568a03c56becac43e1808

@@ -1,0 +1,127 @@
+# TV and Plex: what the TV does for the Armonico TV card, from MQTT messages on tv/plex.
+# The engine plays the items itself (lessons/piano_plex.py): it finds what to play, sends one "open" for each
+# and waits on the Plex server until it ends. This automation only works the TV, so it needs no Plex token
+# and no YAML: setup/ha_setup.py puts it in by itself ("sudo armonico integrations", with the card on).
+#
+#   on                 the TV goes on (Wake-on-LAN first when it is fully off and a button is set)
+#   open|N|URI         the TV goes on if it is off and opens the item; N above 1: Back first, then 2 seconds,
+#                      or the next item opens at the point the last one ended and fails
+#   pause / resume     pause and go on
+#   stop               stops the playing
+#   off                turns the TV off
+#   idle               the TV has stayed paused for an hour: the notification, if one is set
+#   (an empty message does nothing)
+#
+# On the TV, in the Plex app: Auto Play off, so it does not run on to the next episode by itself.
+blueprint:
+  name: "TV and Plex"
+  description: >-
+    The TV for the Armonico TV card, by MQTT messages on tv/plex: on, open|N|URI, pause, resume, stop, off, idle.
+  domain: automation
+  author: Vesta Core Labs
+  input:
+    remote:
+      name: The TV's remote
+      description: The Android TV Remote entity of the TV
+      selector:
+        entity:
+          domain: remote
+    wake:
+      name: Wake-on-LAN button
+      description: A button that wakes the TV when it is fully off. Pressed only when the remote is not on
+      default: []
+      selector:
+        entity:
+          domain: button
+    notify:
+      name: After an hour of pause
+      description: Actions to run when the TV stays paused for an hour. Empty for none
+      default: []
+      selector:
+        action: {}
+    topic:
+      name: MQTT topic
+      default: tv/plex
+      selector:
+        text: {}
+
+triggers:
+  - trigger: mqtt
+    topic: !input topic
+
+variables:
+  remote: !input remote
+  wake: !input wake
+  parts: "{{ (trigger.payload | default('') | trim).split('|') | map('trim') | list }}"
+  cmd: "{{ parts[0] | lower if parts else '' }}"
+  index: "{{ parts[1] | int(1) if parts | length > 1 else 1 }}"
+  link: "{{ parts[2:] | join('|') if parts | length > 2 else '' }}"
+
+conditions:
+  - condition: template
+    value_template: "{{ cmd in ['on', 'open', 'pause', 'resume', 'stop', 'off', 'idle'] }}"
+
+actions:
+  - choose:
+      - conditions: "{{ cmd in ['on', 'open'] }}"
+        sequence:
+          - if: "{{ not is_state(remote, 'on') and wake | length > 0 }}"
+            then:
+              - action: button.press
+                target:
+                  entity_id: !input wake
+          - if: "{{ not is_state(remote, 'on') }}"
+            then:
+              - action: remote.turn_on
+                target:
+                  entity_id: !input remote
+              - wait_template: "{{ is_state(remote, 'on') }}"
+                timeout: "00:01:00"
+          - if: "{{ cmd == 'open' and link != '' }}"
+            then:
+              - if: "{{ index > 1 }}"
+                then:
+                  - action: remote.send_command
+                    target:
+                      entity_id: !input remote
+                    data:
+                      command: BACK
+                  - delay: "00:00:02"
+              - action: remote.turn_on
+                target:
+                  entity_id: !input remote
+                data:
+                  activity: "{{ link }}"
+      - conditions: "{{ cmd == 'pause' }}"
+        sequence:
+          - action: remote.send_command
+            target:
+              entity_id: !input remote
+            data:
+              command: MEDIA_PAUSE
+      - conditions: "{{ cmd == 'resume' }}"
+        sequence:
+          - action: remote.send_command
+            target:
+              entity_id: !input remote
+            data:
+              command: MEDIA_PLAY
+      - conditions: "{{ cmd == 'stop' }}"
+        sequence:
+          - action: remote.send_command
+            target:
+              entity_id: !input remote
+            data:
+              command: MEDIA_STOP
+      - conditions: "{{ cmd == 'off' }}"
+        sequence:
+          - action: remote.turn_off
+            target:
+              entity_id: !input remote
+      - conditions: "{{ cmd == 'idle' }}"
+        sequence:
+          - choose: []
+            default: !input notify
+
+mode: queued
+max: 10
