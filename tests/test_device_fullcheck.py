@@ -184,8 +184,10 @@ class Areas(unittest.TestCase):
         self.assertEqual(levels(res), [F.SKIP, F.PROBLEM, F.SKIP], "the kernel log unreadable: not checked, not failed")
         (proc / "mounts").write_text("/dev/mmcblk0p2 / ext4 rw,noatime 0 0\n")
         errs = (0, "[ 12.3] mmc0: error -110 whilst initialising SD card\n[ 99.1] usb 1-1: new device\n", "")
+        # the SD card on mmc0, as on a Pi: the CI's runner has MMC buses with no card, and its own
+        # /sys/class/mmc_host would leave the mmc0 line out as a Wi-Fi chip's
         with mock.patch.object(F, "PROC", proc), mock.patch.object(diag, "check_disk", return_value=None), \
-                mock.patch.object(F, "run", return_value=errs):
+                mock.patch.object(F, "run", return_value=errs), mock.patch.object(F.logs, "disk_hosts", return_value={0}):
             res = F.a_sd(self.cfg, {})
         self.assertEqual(levels(res), [F.SKIP, F.OK, F.PROBLEM])
         self.assertIn("mmc0", res[2].lines[-1], "the lines themselves are kept, to read on the screen")
